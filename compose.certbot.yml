@@ -1,13 +1,38 @@
 version: '3'
 services:
 
-  traffix-certbot:
-    image: certbot/certbot:latest
-    container_name: traffix-certbot
-    restart: unless-stopped
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
-    networks:
-      - default
+    traffix-certbot:
+        image: certbot/certbot:latest
+        container_name: traffix-certbot
+        restart: unless-stopped
+        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+        volumes:
+            - ./certbot/www/:/var/www/certbot/
+            - ./certbot/conf/:/etc/letsencrypt/
+        networks:
+            - default
+
+    traffix-init-dhparams:
+        image: certbot/certbot:latest
+        restart: "no"
+        entrypoint: /bin/sh
+        command: > 
+            -c 'test -f /etc/letsencrypt/ssl-dhparams.pem || \
+            openssl dhparam -out /etc/letsencrypt/ssl-dhparams.pem 4096'
+        volumes:
+            - ./certbot/conf/:/etc/letsencrypt/
+
+    traffix-certbot-oneshot:
+        image: certbot/certbot:latest
+        restart: "no"
+        env_file: .env
+        entrypoint: /bin/sh
+        command: >
+            -c 'test -d /etc/letsencrypt/live/${CERTBOT_BASE_DOMAIN:-example.ru} || \
+            certbot certonly --standalone --register-unsafely-without-email \
+            -d "${CERTBOT_BASE_DOMAIN:-example.ru},www.${CERTBOT_BASE_DOMAIN:-example.ru}" \
+            --rsa-key-size ${rsa_key_size:-2048} --agree-tos --force-renewal'
+        ports:
+            - 80:80
+        volumes:
+            - ./certbot/conf/:/etc/letsencrypt/

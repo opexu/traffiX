@@ -34,6 +34,8 @@ services:
       - traffix-front
       - traffix-back
       - traffix-postgres
+      - traffix-init-dhparams
+      - traffix-certbot-oneshot
     logging:
         options:
           max-size: '50m'
