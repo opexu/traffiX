@@ -1,9 +1,9 @@
 version: '3'
 services:
 
-    traffix-certbot:
+    certbot:
         image: certbot/certbot:latest
-        container_name: traffix-certbot
+        container_name: certbot
         restart: unless-stopped
         entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
         volumes:
@@ -20,7 +20,7 @@ services:
             -c 'test -f /etc/letsencrypt/ssl-dhparams.pem || \
             openssl dhparam -out /etc/letsencrypt/ssl-dhparams.pem 4096'
         volumes:
-            - ./certbot/conf/:/etc/letsencrypt/
+            - ./certbot/conf/:/etc/letsencrypt/:Z
 
     traffix-certbot-oneshot:
         image: certbot/certbot:latest
