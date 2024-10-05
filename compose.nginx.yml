@@ -18,8 +18,8 @@ services:
       - ./nginx/stream.nginx.conf:/etc/nginx/templates/stream.conf.template
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/entrypoint.sh:/entrypoint.sh
-      - ./certbot/www/:/var/www/certbot
-      - ./certbot/conf/:/etc/letsencrypt
+      - ./certbot/www/:/var/www/certbot/
+      - ./certbot/conf/:/etc/letsencrypt/
       - ./front/dist:/dist
     networks:
       - default
