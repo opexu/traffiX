@@ -1,0 +1,24 @@
+FROM node:18-alpine as traffix-front
+
+RUN apk add --no-cache python3 make g++ libusb-dev udev linux-headers
+ENV PYTHON=python3
+
+WORKDIR /usr/src/app/front
+
+COPY --chown=node:node \
+    ./front/package.json \
+    ./front/package-lock.json \
+    ./front/vite.config.ts \
+    ./front/tailwind.config.js \
+    ./front/postcss.config.js \
+    ./front/env.d.ts \
+    ./front/tsconfig.json \
+    ./front/tsconfig.app.json \
+    ./front/tsconfig.node.json \
+    ./
+
+RUN npm ci
+
+ARG VITE_NODE_ENV
+ENV VITE_NODE_ENV=${VITE_NODE_ENV}
+CMD ["sh", "-c", "if [ \"$VITE_NODE_ENV\" = 'prod' ]; then npm run build; else npm run dev; fi"]

@@ -1,0 +1,31 @@
+version: '3'
+services:
+
+  traffix-back:
+    container_name: traffix-back
+    build:
+      dockerfile: ./Dockerfile.back
+      context: ./
+      args:
+        VITE_NODE_ENV: ${VITE_NODE_ENV}
+    expose:
+      - ${VITE_BACK_PORT}
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - default
+    depends_on:
+      - traffix-postgres
+    logging:
+        options:
+          max-size: '50m'
+    develop:
+      watch:
+        - action: sync
+          path: ./back/src
+          target: /usr/src/app/back
+          ignore: 
+            - ./back/node_modules/
+        - action: rebuild
+          path: ./back/package.json
+

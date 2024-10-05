@@ -1,0 +1,22 @@
+FROM node:18-alpine as traffix-back
+WORKDIR /usr/src/app/back
+
+COPY --chown=node:node \
+    ./back/package.json \
+    ./back/package-lock.json \
+    ./back/tsconfig.json \
+    ./back/tsconfig.build.json \
+    ./back/nest-cli.json \
+    ./
+
+RUN npm ci 
+
+COPY --chown=node:node ./back/src ./src
+
+RUN npm run build
+
+ARG VITE_NODE_ENV
+ENV VITE_NODE_ENV=${VITE_NODE_ENV}
+# CMD ["npm","run","start:$VITE_NODE_ENV"]
+CMD ["sh","-c","npm run start:\"$VITE_NODE_ENV\""]
+# CMD ["sh", "-c", "if [ \"$VITE_NODE_ENV\" = 'prod' ]; then npm run start:prod; else npm run dev; fi"]

@@ -1,0 +1,20 @@
+version: '3'
+services:
+  
+  traffix-front:
+    container_name: traffix-front
+    build:
+      dockerfile: ./Dockerfile.front
+      context: ./
+      args:
+        VITE_NODE_ENV: ${VITE_NODE_ENV}
+    env_file: .env
+    volumes:
+     - ./front/src:/usr/src/app/front/src
+     - ./front/dist:/usr/src/app/front/dist
+    networks:
+      - default
+    logging:
+        options:
+          max-size: '50m'
+

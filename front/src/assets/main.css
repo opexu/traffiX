@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    @font-face {
+        font-family: 'Play';
+        src: url('@/assets/fonts/Play-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+    }
+    
+    @font-face {
+        font-family: 'Play';
+        src: url('@/assets/fonts/Play-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-style: normal;
+    }
+    
+    html {
+        @apply w-screen h-screen overscroll-none overflow-hidden select-none;
+    }
+
+    body {
+        @apply w-full h-full
+    }
+
+}
