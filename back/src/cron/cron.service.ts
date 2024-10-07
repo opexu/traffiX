@@ -40,9 +40,11 @@ export class CronService {
 
     for (const task of this.refundTasks) {
       const diffInMs = now.getTime() - task.scheduledAt.getTime();
-      const diffInHours = diffInMs / (1000 * 60); //* 60);
+      //   const diffInHours = diffInMs / (1000 * 60 * 60);
+      const diffInMins = diffInMs / (1000 * 60);
 
-      if (diffInHours >= 1) {
+      if (diffInMins >= 5) {
+        //if (diffInHours >= 1) {
         this.logger.log(
           `Processing refund to ${task.from} of ${task.amount / LAMPORTS_PER_SOL} SOL`,
         );
