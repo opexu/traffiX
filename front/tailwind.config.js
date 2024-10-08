@@ -7,12 +7,10 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['"Play"', ...defaultTheme.fontFamily.sans]
+                sans: ['"Unbounded"', ...defaultTheme.fontFamily.sans]
             },
             colors: {
-                'drop-blue-300': '#081C2F',
-                'drop-blue-800': '#305793',
-                'drop-blue-900': '#031531'
+                'sol-400': '#86EFAC',
             }
         },
     },

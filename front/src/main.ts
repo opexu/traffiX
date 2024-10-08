@@ -6,9 +6,31 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-const app = createApp(App)
+import SolanaWallets from "solana-wallets-vue";
+import "solana-wallets-vue/styles.css";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import {
+    CloverWalletAdapter,
+    PhantomWalletAdapter,
+    SolflareWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
 
-app.use(createPinia())
-app.use(router)
+const walletOptions = {
+    wallets: [
+        new PhantomWalletAdapter(),
+        new CloverWalletAdapter(),
+        new SolflareWalletAdapter( { network:
+            import.meta.env.VITE_NODE_ENV === 'dev'
+                ? WalletAdapterNetwork.Devnet 
+                : WalletAdapterNetwork.Mainnet
+        } ),
+    ],
+    autoConnect: true,
+};
+const app = createApp( App )
 
-app.mount('#app')
+
+app.use( createPinia() )
+app.use( router )
+app.use( SolanaWallets, walletOptions )
+app.mount( '#app' )

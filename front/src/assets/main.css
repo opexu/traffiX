@@ -5,6 +5,55 @@
 @layer base {
 
     @font-face {
+        font-family: Unbounded;
+        src: url('@/assets/fonts/Unbounded-ExtraLight.ttf');
+        font-weight: 200;
+    }
+
+    @font-face {
+        font-family: Unbounded;
+        src: url('@/assets/fonts/Unbounded-Light.ttf');
+        font-weight: 300;
+    }
+    
+    @font-face {
+        font-family: Unbounded;
+        src: url('@/assets/fonts/Unbounded-Regular.ttf');
+        font-weight: 400;
+    }
+
+    @font-face {
+        font-family: Unbounded;
+        src: url('@/assets/fonts/Unbounded-Medium.ttf');
+        font-weight: 500;
+    }
+
+
+    @font-face {
+        font-family: Unbounded;
+        src: url('@/assets/fonts/Unbounded-SemiBold.ttf');
+        font-weight: 600;
+    }
+    
+    @font-face {
+        font-family: Unbounded;
+        src: url('@/assets/fonts/Unbounded-Bold.ttf');
+        font-weight: 700;
+    }
+
+    @font-face {
+        font-family: Unbounded;
+        src: url('@/assets/fonts/Unbounded-ExtraBold.ttf');
+        font-weight: 800;
+    }
+
+    @font-face {
+        font-family: Unbounded;
+        src: url('@/assets/fonts/Unbounded-Black.ttf');
+        font-weight: 900;
+    }
+
+    @font-face {
         font-family: 'Play';
         src: url('@/assets/fonts/Play-Regular.ttf') format('truetype');
         font-weight: 400;
@@ -19,11 +68,38 @@
     }
     
     html {
-        @apply w-screen h-screen overscroll-none overflow-hidden select-none;
+        @apply w-full h-fit select-none;
     }
 
     body {
-        @apply w-full h-full
+        @apply w-full h-fit
     }
 
+}
+
+@layer utilities {
+    .gradient-animation {
+        background: linear-gradient(229deg, #00ffa3, #dc1fff);
+        background-size: 400% 400%;
+
+        -webkit-animation: AnimationName 2s ease infinite;
+        -moz-animation: AnimationName 2s ease infinite;
+        animation: AnimationName 2s ease infinite;
+    }
+
+    @-webkit-keyframes AnimationName {
+        0%{background-position:97% 0%}
+        50%{background-position:4% 100%}
+        100%{background-position:97% 0%}
+    }
+    @-moz-keyframes AnimationName {
+        0%{background-position:97% 0%}
+        50%{background-position:4% 100%}
+        100%{background-position:97% 0%}
+    }
+    @keyframes AnimationName {
+        0%{background-position:97% 0%}
+        50%{background-position:4% 100%}
+        100%{background-position:97% 0%}
+    }
 }
