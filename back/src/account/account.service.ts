@@ -1,15 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Account } from './entities/account.entity';
 import * as fs from 'fs';
 import * as csvParser from 'csv-parser';
+import { join } from 'path';
+import { CreatePostDto } from './dto/post.dto';
+import { Post } from './entities/post.entity';
 
 @Injectable()
 export class AccountService {
   constructor(
     @InjectRepository(Account)
     private accountRepository: Repository<Account>,
+    @InjectRepository(Post)
+    private postRepository: Repository<Post>,
   ) {}
 
   async parseAndSaveFromFile(filePath: string): Promise<void> {
@@ -28,7 +33,7 @@ export class AccountService {
           accounts.push(account);
         })
         .on('end', async () => {
-          await this.accountRepository.save(accounts);
+          await this.accountRepository.save(accounts, { reload: true });
           resolve();
         })
         .on('error', (err) => {
@@ -70,5 +75,30 @@ export class AccountService {
       currentPage: page,
       totalPages: Math.ceil(total / limit),
     };
+  }
+
+  async uploadImage(file: Express.Multer.File) {
+    try {
+      const uploadPath = join(__dirname, '..', '..', '..', 'images');
+      if (!fs.existsSync(uploadPath)) {
+        fs.mkdirSync(uploadPath, { recursive: true });
+      }
+      const filePath = join(uploadPath, file.originalname);
+      fs.writeFileSync(filePath, file.buffer);
+      return filePath;
+    } catch (error) {
+      console.error('Upload file error:', error);
+      throw new InternalServerErrorException('Upload file error');
+    }
+  }
+
+  async createPost(createPostDto: CreatePostDto, file: Express.Multer.File) {
+    const filePath = await this.uploadImage(file);
+    const postData = {
+      text: createPostDto.text,
+      x_author: createPostDto.x_author,
+      image_url: filePath,
+    };
+    return this.postRepository.save(postData, { reload: true });
   }
 }
