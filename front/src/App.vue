@@ -1,7 +1,7 @@
 <template>
-<div class="w-full h-fit flex flex-col bg-slate-950">
+<div class="w-full h-fit p-4 flex flex-col bg-slate-950 justify-center items-center">
     <Transition name="fade" mode="out-in" appear>
-    <div class="w-full h-full" :key="$route.fullPath">
+    <div class="w-full xl:w-2/3 h-full" :key="$route.fullPath">
         <RouterView/>
     </div>
     </Transition>

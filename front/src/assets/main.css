@@ -68,18 +68,31 @@
     }
     
     html {
-        @apply w-full h-fit select-none;
+        @apply w-full h-fit select-none overflow-hidden overflow-y-scroll;
     }
 
     body {
-        @apply w-full h-fit
+        @apply w-full h-fit;
     }
 
+    ::-webkit-scrollbar {
+        display: none; /* для браузеров на основе WebKit (Chrome, Safari) */
+    }
 }
 
 @layer utilities {
+    
     .gradient-animation {
         background: linear-gradient(229deg, #00ffa3, #dc1fff);
+        background-size: 400% 400%;
+
+        -webkit-animation: AnimationName 2s ease infinite;
+        -moz-animation: AnimationName 2s ease infinite;
+        animation: AnimationName 2s ease infinite;
+    }
+
+    .gradient-animation-2 {
+        background: linear-gradient(229deg, #00ffa260, #dc1fff60);
         background-size: 400% 400%;
 
         -webkit-animation: AnimationName 2s ease infinite;
@@ -101,5 +114,19 @@
         0%{background-position:97% 0%}
         50%{background-position:4% 100%}
         100%{background-position:97% 0%}
+    }
+
+    .img {
+        -webkit-user-drag: none;
+    }
+
+    .fade-enter-active, 
+    .fade-leave-active {
+        transition: opacity 0.3s;
+    }
+
+    .fade-enter, 
+    .fade-leave-to{
+        opacity: 0.0 !important;
     }
 }

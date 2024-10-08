@@ -12,7 +12,9 @@ export function fakeAccounts( count: number ): IXAccount[] {
             followers_number: Math.floor( Math.random() * Number.MAX_SAFE_INTEGER ),
             avatar_url: FAKE_ACCOUNTS[ index ].avatar_url,
             average_views: Math.random() * Number.MAX_SAFE_INTEGER,
-            price: Math.floor( Math.random() * 10000 )
+            price: Math.floor( Math.random() * 10000 ),
+            king: Math.random() < 0.5,
+            flash: Math.random() < 0.5
         }
     } );
 }
