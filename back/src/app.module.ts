@@ -6,6 +6,7 @@ import { CronModule } from './cron/cron.module';
 import { ConfigModule } from '@nestjs/config';
 import { AccountModule } from './account/account.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    TransactionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
