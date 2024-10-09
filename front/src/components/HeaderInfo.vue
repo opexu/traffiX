@@ -2,7 +2,7 @@
 <div class="w-fit h-full gap-4 flex flex-row items-center justify-center">
     <img :src="PinSrc" class="w-fit h-fit hover:animate-bounce active:animate-ping" draggable="false"/>
     <div class="w-fit h-fit flex-wrap flex flex-col text-white whitespace-nowrap">
-        <div class="w-60 h-fit flex-wrap flex flex-row items-center justify-between">
+        <div class="w-full sm:w-48 md:w-60 h-fit flex-wrap flex flex-row items-center justify-between text-sm md:text-base">
             <button class="hover:text-sol-400"
             
             >[ X ]</button>

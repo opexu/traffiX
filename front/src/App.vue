@@ -1,12 +1,14 @@
 <template>
-<div class="w-full h-fit p-4 flex flex-col bg-slate-950 justify-center items-center">
+<div class="w-full h-full flex flex-col bg-slate-950 justify-center items-center overflow-hidden">
     <Transition name="fade" mode="out-in" appear>
     <div class="w-full xl:w-2/3 h-full" :key="$route.fullPath">
         <RouterView/>
     </div>
     </Transition>
     <Transition name="fade" mode="out-in" appear>
-    <Preloader v-if="isLoading"/>
+    <Preloader v-if="isLoading"
+    class="absolute w-full h-full"
+    />
     </Transition>
 </div>
 </template>

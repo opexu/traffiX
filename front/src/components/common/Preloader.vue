@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute w-full h-full flex flex-row items-center justify-center bg-white">
+    <div class="flex flex-row items-center justify-center">
         <div class="loader"></div>
     </div>
 </template>

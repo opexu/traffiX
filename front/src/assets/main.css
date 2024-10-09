@@ -68,11 +68,11 @@
     }
     
     html {
-        @apply w-full h-fit select-none overflow-hidden overflow-y-scroll;
+        @apply w-full h-screen select-none;
     }
 
     body {
-        @apply w-full h-fit;
+        @apply w-full h-full;
     }
 
     ::-webkit-scrollbar {
