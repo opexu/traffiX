@@ -3,14 +3,15 @@
 
     <HeaderInfo/>
     
-    <WalletMultiButton >
-        <!-- <template #default="modalScope">
-            <button class="group px-4 py-3 bg-sol-400 rounded-xl font-bold text-xs sm:text-base whitespace-nowrap hover:gradient-animation" @click="modalScope.openModal()"
+    <WalletMultiButton>
+        <template #default="modalScope">
+            <button class="w-full h-fit px-4 py-3 rounded-2xl items-center justify-center text-center text-xs md:text-base whitespace-nowrap font-bold active:bg-lime-400 bg-sol-400 [&:not(:active):not(:disabled)]:hover:gradient-animation transition-all duration-500" 
+            @click="modalScope.openModal"
             v-if="!publicKey"
             >
-                <p class="group-hover:animate-bounce">Connect wallet</p>
+            Connect Wallet
             </button>
-        </template> -->
+        </template> 
     </WalletMultiButton>
 </div>
 </template>
@@ -19,7 +20,7 @@
 import { useWallet, WalletMultiButton } from 'solana-wallets-vue';
 import HeaderInfo from './HeaderInfo.vue';
 
-const { publicKey, wallet, disconnect, connected, connecting, signMessage } = useWallet();
+const { publicKey, wallet, disconnect, connected, connecting, signMessage, sendTransaction  } = useWallet();
 
 </script>
 

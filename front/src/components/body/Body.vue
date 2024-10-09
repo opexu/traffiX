@@ -4,7 +4,8 @@
         <div ref="cardRootRef" class="w-full h-full gap-2 flex flex-col overflow-hidden overflow-y-scroll">
             <div class="w-full h-fit grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                 <template v-for="(   account ) in xAccountsArr" :key="account.id">
-                    <Card :x-account="account" />
+                    <Card :x-account="account" 
+                    />
                 </template>
             </div>
             <Preloader 
@@ -24,7 +25,6 @@ import { ref } from 'vue';
 import Preloader from '../common/Preloader.vue';
 
 const cardRootRef = ref<HTMLDivElement | null>( null );
-
 const debouncedFn = useDebounceFn( () => {
     console.log( '10' )
     xAccountsArr.value.push( ...fakeAccounts( 10 ) )
@@ -33,11 +33,6 @@ const debouncedFn = useDebounceFn( () => {
 const { reset, isLoading } = useInfiniteScroll(
     cardRootRef,
     debouncedFn,
-    // () => {
-    //     console.log( '10' )
-    //     // setTimeout( () => { xAccountsArr.value.push( ...fakeAccounts( 10 ) ) }, 2000 )
-    //     // xAccountsArr.value.push( ...fakeAccounts( 10 ) )
-    // },
     { distance: 10 }
 )
 

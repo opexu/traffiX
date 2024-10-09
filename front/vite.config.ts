@@ -21,7 +21,7 @@ export default defineConfig( ( { command, mode, isSsrBuild, isPreview } ) => {
             }
         },
         server: {
-            port: parseInt( process.env.VITE_FRONT_PORT || '8090' ),
+            port: parseInt( process.env.VITE_FRONT_PORT || '8080' ),
             watch: {
                 usePolling: true,
             }

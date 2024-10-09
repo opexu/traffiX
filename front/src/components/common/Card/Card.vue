@@ -8,7 +8,8 @@
     /> -->
     <CardFooter
     :price="xAccount.price"
-    @buy="isBuyForm = true"
+    :can-buy="connected"
+    @buy="onBuyClick( xAccount.price )"
     />
 
     <Modal :show="isBuyForm">
@@ -30,8 +31,20 @@ import CardHeader from './CardHeader.vue';
 import Modal from '../Modal.vue';
 import BuyForm from '../BuyForm/BuyForm.vue';
 import { ref } from 'vue';
+import { useSolanaWallet } from '@/composables/useSolanaWallet';
+import { useWallet } from 'solana-wallets-vue';
+import { useWalletStore } from '@/stores/walletStore';
 
 defineProps<{ xAccount: IXAccount }>();
 
 const isBuyForm = ref( false );
+
+const { connected, sendSol } = useSolanaWallet();
+
+async function onBuyClick( amount: number ){
+    
+    const TO_ADDRESS = 'GY5CpB1L1BtCW9KANRKyb3jUnN9YguhinkTeCcxv5QEB';
+    await sendSol( amount, TO_ADDRESS );
+    isBuyForm.value = true
+}
 </script>
