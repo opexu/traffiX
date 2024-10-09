@@ -9,7 +9,7 @@
     <CardFooter
     :price="xAccount.price"
     :can-buy="connected"
-    @buy="onBuyClick( xAccount.price )"
+    @buy="debouncedFn( xAccount.price )"
     />
 
     <Modal :show="isBuyForm">
@@ -32,14 +32,15 @@ import Modal from '../Modal.vue';
 import BuyForm from '../BuyForm/BuyForm.vue';
 import { ref } from 'vue';
 import { useSolanaWallet } from '@/composables/useSolanaWallet';
-import { useWallet } from 'solana-wallets-vue';
-import { useWalletStore } from '@/stores/walletStore';
+import { useDebounceFn } from '@vueuse/core';
 
 defineProps<{ xAccount: IXAccount }>();
 
 const isBuyForm = ref( false );
 
 const { connected, sendSol } = useSolanaWallet();
+
+const debouncedFn = useDebounceFn( onBuyClick, 1000 )
 
 async function onBuyClick( amount: number ){
     

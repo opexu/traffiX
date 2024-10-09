@@ -18,7 +18,7 @@
                 @click="modalScope.openModal"
                 v-if="!publicKey"
                 >
-                Connect
+                Buy
                 </button>
             </template> 
         </WalletMultiButton>
