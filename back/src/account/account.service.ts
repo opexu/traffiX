@@ -79,7 +79,7 @@ export class AccountService {
 
   async uploadImage(file: Express.Multer.File) {
     try {
-      const uploadPath = join(__dirname, '..', '..', '..', 'images');
+      const uploadPath = join(__dirname, process.env.IMGS_PATH);
       if (!fs.existsSync(uploadPath)) {
         fs.mkdirSync(uploadPath, { recursive: true });
       }
