@@ -18,7 +18,7 @@ export class SolanaService {
     private readonly solanaTransactionParser: SolanaTransactionParser,
     private readonly cronService: CronService,
   ) {
-    const rpcUrl = 'https://api.devnet.solana.com';
+    const rpcUrl = process.env.RPC_URL;
     this.connection = new Connection(rpcUrl, 'confirmed');
 
     const secretKey = Uint8Array.from(
@@ -31,7 +31,6 @@ export class SolanaService {
     //   6, 169, 246, 167, 242, 194, 222, 211, 191, 252, 104, 154, 128, 78, 200,
     // ]);
     this.wallet = Keypair.fromSecretKey(secretKey);
-    console.log(this.wallet.publicKey);
 
     this.trackIncomingTransactions();
   }
@@ -53,13 +52,13 @@ export class SolanaService {
           );
 
         if (parsedTransaction) {
-          const { from, amount } = parsedTransaction;
+          //   const { from, amount } = parsedTransaction;
 
-          this.logger.log(
-            `Transaction parsed: From ${from}, Amount: ${amount / LAMPORTS_PER_SOL} SOL`,
-          );
+          //   this.logger.log(
+          //     `Transaction parsed: From ${from}, Amount: ${BigInt(amount) / BigInt(LAMPORTS_PER_SOL)} SOL`,
+          //   );
 
-          this.cronService.scheduleRefund(from, amount, this.wallet);
+          await this.cronService.scheduleRefund(parsedTransaction, this.wallet);
         }
       }
     });
