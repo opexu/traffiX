@@ -4,6 +4,9 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
+
+
 /** @type {import('vite').UserConfig} */
 export default defineConfig( ( { command, mode, isSsrBuild, isPreview } ) => {
     
@@ -13,6 +16,17 @@ export default defineConfig( ( { command, mode, isSsrBuild, isPreview } ) => {
     return {
         plugins: [
             vue(),
+            nodePolyfills( {
+                include: [],
+                exclude: [],
+                globals: {
+                    Buffer: true,
+                    global: true,
+                    process: false,
+                },
+                overrides: {},
+                protocolImports: false,
+            } ),
         ],
         root: path.resolve( __dirname, './src' ),
         resolve: {
