@@ -21,4 +21,4 @@ RUN npm ci
 
 ARG VITE_NODE_ENV
 ENV VITE_NODE_ENV=${VITE_NODE_ENV}
-CMD ["sh", "-c", "if [ \"$VITE_NODE_ENV\" = 'prod' ]; then npm run build; else npm run dev; fi"]
+CMD ["sh", "-c", "if [ \"$VITE_NODE_ENV\" = 'prod' ]; then npm run build-only; else npm run dev; fi"]

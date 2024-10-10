@@ -59,3 +59,9 @@ dist
 *.key
 *.pem
 /docker
+/files
+*.csv
+*.xlsx
+*.xls
+*.doc
+*.docx

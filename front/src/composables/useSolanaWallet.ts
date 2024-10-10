@@ -2,7 +2,6 @@ import { clusterApiUrl, Connection, PublicKey, SystemProgram, Transaction, LAMPO
 import { useWallet } from "solana-wallets-vue";
 
 const COMMITMENT = 'confirmed'
-// const LAMPORTS_PER_SOL = 1_000_000_000;
 
 export function useSolanaWallet(){
 
@@ -10,7 +9,7 @@ export function useSolanaWallet(){
 
     async function sendSol( amount: number, recipientPublicKey: string ){
         
-        const net = import.meta.env.VITE_NODE_ENV === 'prod' ? 'mainnet-beta' : 'devnet';
+        const net = import.meta.env.VITE_IS_MAINNET === 'true' ? 'mainnet-beta' : 'devnet';
         const connection = new Connection( clusterApiUrl( net ), COMMITMENT );
 
         if ( !connection || !publicKey?.value || !wallet.value ) {

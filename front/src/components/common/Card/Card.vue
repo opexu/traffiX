@@ -1,5 +1,7 @@
 <template>
-<div class="w-full h-fit flex flex-col p-4 gap-4 border border-slate-800 rounded-3xl hover:gradient-animation-2 divide-y-2 divide-slate-800">
+<div class="w-full h-fit flex flex-col p-4 gap-4 border border-slate-800 rounded-3xl hover:gradient-animation-2 divide-y-2 divide-slate-800"
+:class="[ xAccount.bounce ? 'animate-bounce-2' : '']"
+>
     <CardHeader
     :account="xAccount"
     />

@@ -20,9 +20,9 @@ const walletOptions = {
         new PhantomWalletAdapter(),
         new CloverWalletAdapter(),
         new SolflareWalletAdapter( { network:
-            import.meta.env.VITE_NODE_ENV === 'dev'
-                ? WalletAdapterNetwork.Devnet 
-                : WalletAdapterNetwork.Mainnet
+            import.meta.env.VITE_IS_MAINNET === 'true'
+                ? WalletAdapterNetwork.Mainnet 
+                : WalletAdapterNetwork.Devnet
         } ),
     ],
     autoConnect: true,

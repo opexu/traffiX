@@ -6,13 +6,7 @@ services:
     restart: unless-stopped
     expose:
       - "${POSTGRES_PORT}"
-    ports:
-      - "127.0.0.1:${POSTGRES_PORT}:${POSTGRES_PORT}"
     env_file: .env
-    environment:
-      POSTGRES_DB: $POSTGRES_DB
-      POSTGRES_USER: $POSTGRES_USER
-      POSTGRES_PASSWORD: $POSTGRES_PASS
     volumes:
       - ./docker/postgres:/var/lib/postgresql/data
     networks:

@@ -2,6 +2,8 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Account {
+
+  // TODO uuid
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -1,12 +1,12 @@
 <template>
 <div class="w-full h-full flex flex-col bg-slate-950 justify-center items-center overflow-hidden">
     <Transition name="fade" mode="out-in" appear>
-    <div class="w-full xl:w-2/3 h-full" :key="$route.fullPath">
+    <div class="w-full lg:w-5/6 xl:w-2/3 h-full" :key="$route.fullPath">
         <RouterView/>
     </div>
     </Transition>
     <Transition name="fade" mode="out-in" appear>
-    <Preloader v-if="isLoading"
+    <Preloader v-if="xAccountsArr.length === 0"
     class="absolute w-full h-full"
     />
     </Transition>
@@ -14,16 +14,12 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from 'vue';
 import { RouterView } from 'vue-router';
 import Preloader from './components/common/Preloader.vue';
 import { storeToRefs } from 'pinia';
-import { useDataStore } from '@/stores/dataStore';
+import { useXAccountsStore } from './stores/xAccountsStore';
 
-const dataStore = useDataStore();
-const { isLoading } = storeToRefs( dataStore );
+const xAccountsStore = useXAccountsStore();
+const { xAccountsArr } = storeToRefs( xAccountsStore );
 
-onBeforeMount( async () => {
-    await dataStore.init();
-})
 </script>

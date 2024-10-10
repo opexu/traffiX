@@ -53,33 +53,48 @@ export class AccountService {
 
     return {
       data: result,
-      count: total,
-      currentPage: page,
-      totalPages: Math.ceil(total / limit),
+      pagination: {
+        page,
+        perPage: limit,
+        count: total,
+        totalPages: Math.ceil(total / limit),
+      }
     };
   }
 
   async findAllWithRandomization(sid: string, page: number, limit: number) {
     const offset = (page - 1) * limit;
-    const total = await this.accountRepository.count();
-    const result: Account[] = await this.accountRepository.query(
-      `SELECT * 
-       FROM account 
-       ORDER BY MOD(CAST('0x' || substring(md5(CAST($1 AS text) || id::text) FOR 8) AS bigint), 1000000000)
-       LIMIT $2 OFFSET $3`,
-      [sid, limit, offset],
-    );
+    const [ result, total ] = await Promise.all([
+        this.accountRepository.query(
+            // ES variant
+            //   `SELECT * 
+            //    FROM account 
+            //    ORDER BY MOD(CAST('0x' || substring(md5(CAST($1 AS text) || id::text) FOR 8) AS bigint), 1000000000)
+            //    LIMIT $2 OFFSET $3`,
+            //   [sid, limit, offset],
+            
+            // MT variant
+                `select * from account a order by md5( $1 || id::text)
+                    limit $2 offset $3;`,
+                [sid, limit, offset]
+            ),
+        this.accountRepository.count()
+    ])
+    
     return {
       data: result,
-      count: total,
-      currentPage: page,
-      totalPages: Math.ceil(total / limit),
+      pagination: {
+          page,
+          perPage: limit,
+          count: total,
+          totalPages: Math.ceil(total / limit),
+      }
     };
   }
 
   async uploadImage(file: Express.Multer.File) {
     try {
-      const uploadPath = join(__dirname, process.env.IMGS_PATH);
+      const uploadPath = join(__dirname, '..', '..', '..', process.env.IMGS_PATH);
       if (!fs.existsSync(uploadPath)) {
         fs.mkdirSync(uploadPath, { recursive: true });
       }

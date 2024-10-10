@@ -1,5 +1,5 @@
 <template>
-<div class="w-full h-auto pl-4 flex flex-row items-start justify-center gap-4 md:gap-4">
+<div class="w-full h-24 px-4 flex flex-row items-start justify-center gap-4 md:gap-4">
     
     <!-- logo block -->
     <div class="relative min-w-24 min-h-24 flex flex-row items-center justify-center">
@@ -13,23 +13,23 @@
     </div>
 
     <!-- info block -->
-    <div class="w-full h-full flex flex-col">
-        
-        <div class="w-full h-fit flex-wrap flex flex-row items-center justify-between">
-            <div class="w-fit h-fit flex flex-row items-center justify-center gap-1">
-                <img :src="XSvgSrc" draggable="false"/>
+    <div class="w-full h-full flex flex-row items-start gap-1 truncate">
+        <img :src="XSvgSrc" class="min-w-8 h-auto" draggable="false"/>
+        <div class="w-full h-full flex flex-col gap-2 justify-between truncate ...">
+            <div class="w-full h-fit flex-wrap flex flex-row items-center justify-between gap-1">
                 <p class="font-bold text-white truncate ...">{{ account.name }}</p>
+                <div class="w-fit h-fit flex flex-row items-center justify-center gap-2">
+                    <img v-if="account.king" class="min-w-7 min-h-7" :src="KingSrc" draggable="false"/>
+                    <img v-if="account.flash" class="min-w-7 min-h-7" :src="FlashSrc" draggable="false"/>
+                </div>
             </div>
-            <div class="w-fit h-fit flex flex-row items-center justify-center gap-2">
-                <img v-if="account.king" class="min-w-7 min-h-7" :src="KingSrc" draggable="false"/>
-                <img v-if="account.flash" class="min-w-7 min-h-7" :src="FlashSrc" draggable="false"/>
+            <div class="w-full h-fit flex flex-row items-center justify-between text-sm truncate">
+                <p class="text-slate-400 truncate ...">{{ formatFollowers }}</p>
+                <p v-if="formatAverageViews" class="text-sol-400">{{ formatAverageViews }}</p>
             </div>
-            <!-- todo stars -->
+            
         </div>
         
-        <div class="w-full h-fit flex flex-row items-center justify-between">
-
-        </div>
     </div>
 </div>
 </template>
@@ -39,13 +39,16 @@ import { IXAccount } from '@/types/account';
 import XSvgSrc from '@/assets/svg/x.svg';
 import KingSrc from '@/assets/king.png';
 import FlashSrc from '@/assets/flash.png';
-import ProgressSvgSrc from '@/assets/svg/progress.svg';
 
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { Utils } from '@/scripts/utils';
 
 const props = defineProps<{
     account: IXAccount;
 }>();
+
+const formatFollowers = computed(() => Utils.formatNumber( props.account.followers_number ) );
+const formatAverageViews = computed(() => props.account.average_views ? Utils.formatNumber( props.account.average_views ) : 0 );
 
 const isAvatarLoading = ref(true);
 function onAvatarLoad(){

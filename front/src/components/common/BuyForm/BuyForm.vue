@@ -30,7 +30,7 @@ async function submitForm() {
     }
     const formData = new FormData( form.value );
 
-    await apiStore.submitAdPost( formData );
-    
+    const xpost = await apiStore.submitAdPost( formData );
+    console.log('xpost: ', xpost)
 }
 </script>

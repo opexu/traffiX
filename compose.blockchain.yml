@@ -1,33 +1,32 @@
 version: '3'
 services:
 
-  traffix-back:
-    container_name: traffix-back
+  traffix-blockchain:
+    container_name: traffix-blockchain
     build:
-      dockerfile: ./Dockerfile.back
+      dockerfile: ./Dockerfile.blockchain
       context: ./
       args:
         VITE_NODE_ENV: ${VITE_NODE_ENV}
     expose:
-      - ${VITE_BACK_APP_PORT}
-    volumes:
-      - ./files:/usr/src/app/files/${IMGS_PATH}
+      - ${VITE_BLOCKCHAIN_APP_PORT}
     restart: unless-stopped
     env_file: .env
     networks:
       - default
     depends_on:
       - traffix-postgres
+      - traffix-back
     logging:
         options:
           max-size: '50m'
     develop:
       watch:
         - action: sync
-          path: ./back/src
-          target: /usr/src/app/back
+          path: ./blockchain/src
+          target: /usr/src/app/blockchain
           ignore: 
-            - ./back/node_modules/
+            - ./blockchain/node_modules/
         - action: rebuild
-          path: ./back/package.json
+          path: ./blockchain/package.json
 

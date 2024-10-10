@@ -1,5 +1,5 @@
 import { Utils } from "@/scripts/utils";
-import { IXAccount } from "@/types/account";
+import { IXAccount, IXAccountUnverified } from "@/types/account";
 
 export function fakeAccounts( count: number ): IXAccount[] {
     const idArr = Utils.generateUniqueIntArray( count );
@@ -14,19 +14,20 @@ export function fakeAccounts( count: number ): IXAccount[] {
             average_views: Math.random() * Number.MAX_SAFE_INTEGER,
             price: parseFloat( Math.random().toFixed( 2 ) ),
             king: Math.random() < 0.5,
-            flash: Math.random() < 0.5
+            flash: Math.random() < 0.5,
+            bounce: Math.random() < 0.5,
         }
     } );
 }
 
-export const FAKE_ACCOUNTS: IXAccount[] = [
+export const FAKE_ACCOUNTS: IXAccountUnverified[] = [
     {
         id: 0,
         name: "SpaceX",
         followers_number: 35853790,
         avatar_url: "https://pbs.twimg.com/profile_images/1697749409851985920/HbrI04tM_bigger.jpg",
         average_views: 1336222.6666666667,
-        price: 10000
+        price: '10000'
     },
     {
         id: 1,
@@ -34,7 +35,7 @@ export const FAKE_ACCOUNTS: IXAccount[] = [
         followers_number: 1587,
         avatar_url: "https://pbs.twimg.com/profile_images/1761002965710602241/6HiwzYMp_bigger.jpg",
         average_views: 155,
-        price: 0.055
+        price: '0.055'
     },
     {
         id: 2,
@@ -42,6 +43,6 @@ export const FAKE_ACCOUNTS: IXAccount[] = [
         followers_number: 1562,
         avatar_url: "https://pbs.twimg.com/profile_images/1465060678260117508/gOB6gt78_bigger.jpg",
         average_views: 1240,
-        price: 0.05
+        price: '0.05'
     }
 ]

@@ -4,6 +4,7 @@ include:
   - compose.network.yml
   - compose.front.${VITE_NODE_ENV}.yml
   - compose.back.yml
+  - compose.blockchain.yml
   - compose.postgres.yml
   - compose.nginx.yml
   - compose.certbot.yml

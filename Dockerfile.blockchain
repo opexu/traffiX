@@ -1,0 +1,22 @@
+FROM node:18-alpine as traffix-blockchain
+WORKDIR /usr/src/app/blockchain
+
+COPY --chown=node:node \
+    ./blockchain/package.json \
+    ./blockchain/package-lock.json \
+    ./blockchain/tsconfig.json \
+    ./blockchain/tsconfig.build.json \
+    ./blockchain/nest-cli.json \
+    ./
+
+RUN npm ci 
+
+COPY --chown=node:node ./blockchain/src ./src
+
+RUN npm run build
+
+ARG VITE_NODE_ENV
+ENV VITE_NODE_ENV=${VITE_NODE_ENV}
+# CMD ["npm","run","start:$VITE_NODE_ENV"]
+CMD ["sh","-c","npm run start:\"$VITE_NODE_ENV\""]
+# CMD ["sh", "-c", "if [ \"$VITE_NODE_ENV\" = 'prod' ]; then npm run start:prod; else npm run dev; fi"]
