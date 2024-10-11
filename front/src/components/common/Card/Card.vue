@@ -3,15 +3,14 @@
 :class="[ xAccount.bounce ? 'animate-bounce-2' : '']"
 >
     <CardHeader
-    :account="xAccount"
+    :xAccount="xAccount"
     />
     <!-- <CardBody 
     :description="xAccount.description"
     /> -->
     <CardFooter
     :price="xAccount.price"
-    :can-buy="connected"
-    @buy="debouncedFn( xAccount.price )"
+    @buy="isBuyForm = true"
     />
 
     <Modal :show="isBuyForm">
@@ -19,7 +18,7 @@
             <button class="hover:text-sol-400"
             @click="isBuyForm = false"
             >[ Go back ]</button>
-            <BuyForm :x-account="xAccount"/>
+            <BuyForm :xAccount="xAccount"/>
         </div>
     </Modal>
 </div>
@@ -40,14 +39,4 @@ defineProps<{ xAccount: IXAccount }>();
 
 const isBuyForm = ref( false );
 
-const { connected, sendSol } = useSolanaWallet();
-
-const debouncedFn = useDebounceFn( onBuyClick, 1000 )
-
-async function onBuyClick( amount: number ){
-    
-    const TO_ADDRESS = 'GY5CpB1L1BtCW9KANRKyb3jUnN9YguhinkTeCcxv5QEB';
-    await sendSol( amount, TO_ADDRESS );
-    isBuyForm.value = true
-}
 </script>

@@ -1,23 +1,22 @@
 <template>
-<div class="w-full h-fit gap-8 px-4 py-2 flex flex-row items-center justify-start text-white">
+<div class="w-full h-fit gap-8 px-4 py-2 flex flex-row items-center justify-start text-white bg-inherit">
     <button class="w-fit h-fit flex flex-row disabled:text-slate-500"
     :disabled="IS_FILTERS_DISABLED"
     @click="onPriceOrderClick"
     >Price: &nbsp <span
     :class="priceOrderClass"
-    > [{{ priceOrder ?? '-' }}]</span></button>
+    > [{{ priceOrderText ?? ' - ' }}]</span></button>
     <button class="w-fit h-fit flex flex-row disabled:text-slate-500"
     :disabled="IS_FILTERS_DISABLED"
     @click="onViewsOrderClick"
     >Views: &nbsp <span
     :class="viewOrderClass"
-    >[{{ viewsOrder ?? '-' }}]</span></button>
+    >[{{ viewsOrderText ?? ' - ' }}]</span></button>
 </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { useDebounceFn } from '@vueuse/core';
 import { useXAccountsStore } from '@/stores/xAccountsStore';
 import { storeToRefs } from 'pinia';
 import { IOrderFilter } from '@/composables/useFilters';
@@ -30,6 +29,9 @@ let isFilterClicked = ref( false );
 const xAccountsStore = useXAccountsStore();
 const { priceOrder, viewsOrder, isLoading } = storeToRefs( xAccountsStore );
 const { onPriceChange, onViewsChange } = xAccountsStore;
+
+const priceOrderText = computed(() => priceOrder.value === 'ASC' ? 'LOW' : priceOrder.value === 'DESC' ? 'HIGH' : null );
+const viewsOrderText = computed(() => viewsOrder.value === 'ASC' ? 'LOW' : viewsOrder.value === 'DESC' ? 'HIGH' : null );
 
 const priceOrderClass = computed(() => priceOrder.value === 'ASC' ? 'text-sol-400' : priceOrder.value === 'DESC' ? 'text-red-400' : 'text-white' );
 const viewOrderClass = computed(() => viewsOrder.value === 'ASC' ? 'text-sol-400' : viewsOrder.value === 'DESC' ? 'text-red-400' : 'text-white' );

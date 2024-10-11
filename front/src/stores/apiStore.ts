@@ -3,6 +3,8 @@ import { API, IOrderPayload } from '@/traffix-api'
 import { Utils } from '@/scripts/utils';
 import { IPaginated, IXAccount } from '@/types/account';
 import { ref } from 'vue';
+import { fakeAccounts } from '@/assets/fake/accounts';
+import { IPagination } from '@/composables/usePagination';
 
 export const useAPIStore = defineStore( 'apiStore', () => {
 
@@ -13,6 +15,16 @@ export const useAPIStore = defineStore( 'apiStore', () => {
         const res = await api.getXAccounts( page, limit, order );
         ( res.data as unknown as IXAccount[] ) = res.data.map( xaccount => Utils.validateAccount( xaccount ) );
         return res as unknown as IPaginated<IXAccount[]>;
+        // const data = fakeAccounts( 100 );
+        // const pagination: IPagination = {
+        //     page: 0,
+        //     perPage: 0,
+        //     totalPages: 0,
+        //     count: 0
+        // }
+        // return {
+        //     data, pagination
+        // }
     }
     
     async function submitAdPost( formData: FormData ){

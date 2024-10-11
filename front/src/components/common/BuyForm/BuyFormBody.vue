@@ -6,7 +6,7 @@
         <!-- Левая половина -->
         <div class="w-full h-full gap-4 flex flex-col items-start justify-start">
             <h2 class="font-bold text-xl">Ad Text</h2>
-            <textarea name="ad-text" class="w-full h-full min-h-12 p-4 border border-slate-800 rounded-lg bg-inherit focus:ring-2 ring-sol-400 focus:outline-none resize-none"
+            <textarea name="text" class="w-full h-full min-h-12 p-4 border border-slate-800 rounded-lg bg-inherit focus:ring-2 ring-sol-400 focus:outline-none resize-none"
             placeholder="Write your ad text here"
             :rows="10"
             ></textarea>
@@ -29,7 +29,7 @@
                     </button>
 
                 </label>
-                <input id="traffix-img-post" ref="adImageRef" name="ad-image" type="file" class="hidden" accept="image/*"
+                <input id="traffix-img-post" ref="adImageRef" name="file" type="file" class="hidden" accept="image/*"
                 @change="onPickImage"
                 />
             </div>

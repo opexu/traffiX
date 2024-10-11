@@ -5,8 +5,8 @@ services:
     image: nginx:1.27.1
     container_name: traffix-nginx
     restart: unless-stopped
-    entrypoint: 
-      - ./entrypoint.sh
+    # command: /bin/bash -c "chmod +x /etc/nginx/entrypoint.sh && /etc/nginx/entrypoint.sh"
+    entrypoint: ["/bin/sh", "/etc/nginx/entrypoint.sh"]
     command: ["nginx", "-g", "daemon off;"]
     ports:
       - 80:80
@@ -17,14 +17,14 @@ services:
       - ./nginx/${VITE_NODE_ENV}.nginx.conf:/etc/nginx/templates/default.conf.template
       - ./nginx/stream.nginx.conf:/etc/nginx/templates/stream.conf.template
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/entrypoint.sh:/entrypoint.sh
+      - ./nginx/entrypoint.sh:/etc/nginx/entrypoint.sh
       - ./certbot/www/:/var/www/certbot
       - ./certbot/conf/:/etc/letsencrypt
       - ./front/dist:/dist
     networks:
       - default
     depends_on:
-      - traffix-front
+      # - traffix-front
       - traffix-back
       - traffix-postgres
       # - traffix-init-dhparams
