@@ -2,10 +2,8 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Account {
-
-  // TODO uuid
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;
@@ -19,6 +17,6 @@ export class Account {
   @Column()
   average_views: number;
 
-  @Column('decimal')
-  price: number;
+  @Column('numeric')
+  price: string;
 }
