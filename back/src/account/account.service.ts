@@ -45,52 +45,59 @@ export class AccountService {
     page: number,
     limit: number,
     sid?: string,
-    orderBy?: string,
-    priceFrom?: number,
-    priceTo?: number,
+    order?: {
+        priceOrder?: "ASC" | "DESC" | undefined,
+        viewsOrder?: "ASC" | "DESC" | undefined
+    }
   ) {
-    if (!orderBy && sid) {
+    if ( sid && !order ) {
       return this.findAllWithRandomization(
         sid,
         page,
         limit,
-        priceFrom,
-        priceTo,
       );
     }
 
-    const where: any = {};
+    const { priceOrder, viewsOrder } = order;
+    const sourceStr = 'select * from account a ';
+    let selectStr = sourceStr;
+    if( priceOrder ){
+        selectStr = orderBy( selectStr, 'a.price', priceOrder );
+        if ( viewsOrder ) selectStr = addOrderBy( selectStr, 'a.average_views', viewsOrder );
+    }else if ( viewsOrder ) {
+        selectStr = orderBy( selectStr, 'a.average_views', viewsOrder );
+        if ( priceOrder ) selectStr = addOrderBy( selectStr, 'a.price', priceOrder );
+    }
+    const countStr = sourceStr.replace( '*', 'count(*)');
 
-    let priceFilter = {};
-    if (priceFrom !== undefined && priceTo !== undefined) {
-      priceFilter = { price: Between(priceFrom, priceTo) };
-    } else if (priceFrom !== undefined) {
-      priceFilter = { price: MoreThanOrEqual(priceFrom) };
-    } else if (priceTo !== undefined) {
-      priceFilter = { price: LessThanOrEqual(priceTo) };
+    selectStr = addLimit( selectStr, limit );
+    selectStr = addOffset( selectStr, ( page - 1 ) * limit );
+    function orderBy( source: string, key: string, order: "ASC" | "DESC" | undefined ){
+        return source + 'order by ' + key + ' ' + order + ' ';
+    }
+    function addOrderBy( source: string, key: string, order: "ASC" | "DESC" | undefined ){
+        return source + ', ' + key + ' ' + order + ' ';
+    }
+    function addLimit( source: string, limit: number ){
+        return source + 'limit ' + limit + ' ';
+    }
+    function addOffset( source: string, offset: number ){
+        return source + 'offset ' + offset + ' ';
     }
 
-    let order: any = { average_views: 'DESC' };
-    if (orderBy === 'views_asc') {
-      order = { average_views: 'ASC' };
-    } else if (orderBy === 'views_desc') {
-      order = { average_views: 'DESC' };
-    }
-
-    const [result, total] = await this.accountRepository.findAndCount({
-      where: { ...where, ...priceFilter },
-      skip: (page - 1) * limit,
-      take: limit,
-      order,
-    });
+    const [ { count }, result ] = await Promise.all([ 
+        this.accountRepository.query( countStr ), 
+        this.accountRepository.query( selectStr ) 
+    ]);
+    
 
     return {
       data: result,
       pagination: {
         page,
         perPage: limit,
-        count: total,
-        totalPages: Math.ceil(total / limit),
+        count,
+        totalPages: Math.ceil(count / limit),
       },
     };
   }
@@ -99,23 +106,12 @@ export class AccountService {
     sid: string,
     page: number,
     limit: number,
-    priceFrom?: number,
-    priceTo?: number,
   ) {
     const offset = (page - 1) * limit;
-
-    let priceFilter = '';
-    if (priceFrom !== undefined) {
-      priceFilter += ` AND price >= ${priceFrom}`;
-    }
-    if (priceTo !== undefined) {
-      priceFilter += ` AND price <= ${priceTo}`;
-    }
 
     const result: Account[] = await this.accountRepository.query(
       `SELECT * 
        FROM account 
-       WHERE 1=1 ${priceFilter}
        ORDER BY MOD(CAST('0x' || substring(md5(CAST($1 AS text) || id::text) FOR 8) AS bigint), 1000000000)
        LIMIT $2 OFFSET $3`,
       [sid, limit, offset],

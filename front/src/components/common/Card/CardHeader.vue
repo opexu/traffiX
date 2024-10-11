@@ -17,7 +17,7 @@
         <img :src="XSvgSrc" class="min-w-8 h-auto" draggable="false"/>
         <div class="w-full h-full flex flex-col gap-2 justify-between truncate ...">
             <div class="w-full h-fit flex-wrap flex flex-row items-center justify-between gap-1">
-                <p class="font-bold text-white truncate ...">{{ account.name }}</p>
+                <a class="font-bold text-white hover:text-sol-400 truncate ..." :href="xProfileLink" target="_blank" rel="noopener noreferrer">{{ account.name }}</a>
                 <div class="w-fit h-fit flex flex-row items-center justify-center gap-2">
                     <img v-if="account.king" class="min-w-7 min-h-7" :src="KingSrc" draggable="false"/>
                     <img v-if="account.flash" class="min-w-7 min-h-7" :src="FlashSrc" draggable="false"/>
@@ -47,6 +47,7 @@ const props = defineProps<{
     account: IXAccount;
 }>();
 
+const xProfileLink = computed(() => 'https://twitter.com/' + props.account.name );
 const formatFollowers = computed(() => Utils.formatNumber( props.account.followers_number ) );
 const formatAverageViews = computed(() => props.account.average_views ? Utils.formatNumber( props.account.average_views ) : 0 );
 

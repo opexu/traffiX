@@ -34,5 +34,9 @@ export function usePagination( init: IPagination ){
         }
     }
 
-    return { pagination, update, nextPage, prevPage }
+    function reset(){
+        pagination.value = { ...pagination.value, page: 0 }
+    }
+
+    return { pagination, update, nextPage, prevPage, reset }
 }

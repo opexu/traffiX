@@ -47,9 +47,8 @@ export class AccountController {
     @Session() session: Record<string, any>,
     @Query('page', ParseIntPipe) page: number = 1,
     @Query('limit', ParseIntPipe) limit: number = 10,
-    @Query('order_by') orderBy?: string,
-    @Query('price_from') priceFrom?: number,
-    @Query('price_to') priceTo?: number,
+    @Query('price_order') priceOrder?: "ASC" | "DESC" | undefined,
+    @Query('views_order') viewsOrder?: "ASC" | "DESC" | undefined,
   ): Promise<{
     data: Account[];
     pagination: {
@@ -59,13 +58,14 @@ export class AccountController {
       totalPages: number;
     };
   }> {
+    const order = {};
+    if( priceOrder ) order['priceOrder'] = priceOrder;
+    if( viewsOrder ) order['viewsOrder'] = viewsOrder;
     return this.accountService.findAll(
       page,
       limit,
       session.id,
-      orderBy,
-      priceFrom,
-      priceTo,
+      priceOrder || viewsOrder ? order : undefined
     );
   }
 }

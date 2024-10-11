@@ -1,6 +1,6 @@
 import { IPaginated, IXAccount, IXAccountUnverified } from "@/types/account";
-import { CommonApi } from "./common-api";
-import { Resource, type IAPI } from "./iapi";
+import { CommonApi, IGetPayload } from "./common-api";
+import { IOrderPayload, Resource, type IAPI } from "./iapi";
 import { IXPost } from "@/types/post";
 
 export class API extends CommonApi implements IAPI {
@@ -9,9 +9,12 @@ export class API extends CommonApi implements IAPI {
         baseUrl: string,
     ){ super( baseUrl )}
 
-    async getXAccounts( page: number, limit: number ): Promise<IPaginated<IXAccountUnverified[]>> {
+    async getXAccounts( page: number, limit: number, order?: IOrderPayload ): Promise<IPaginated<IXAccountUnverified[]>> {
         const url = new URL( this._baseUrl + '/' + Resource.XAccounts );
-        return this._fetchGet( url, { page, limit } );
+        const queryObj: IGetPayload = { page, limit };
+        if( order?.priceOrder ) queryObj[ 'price_order' ] = order?.priceOrder;
+        if( order?.viewsOrder ) queryObj[ 'views_order' ] = order?.viewsOrder;
+        return this._fetchGet( url, queryObj );
     }
 
     async submitAdPost( formData: FormData ): Promise<IXPost> {

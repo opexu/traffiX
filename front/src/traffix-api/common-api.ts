@@ -2,6 +2,8 @@ export interface IIterable<T> {
     [key: string]: T
 }
 
+export type IGetPayload = IIterable<string|number>;
+
 export class CommonApi {
 
     constructor(
@@ -20,7 +22,7 @@ export class CommonApi {
         return data;
     }
 
-    protected async _fetchGet<T>( url: URL, queryObj?: IIterable<string|number> ): Promise<T> {
+    protected async _fetchGet<T>( url: URL, queryObj?: IGetPayload ): Promise<T> {
         if( queryObj && typeof queryObj === 'object' ){
             for( const [ key, value ] of Object.entries( queryObj )){ url.searchParams.append( key, typeof value === 'string' ? value : value.toString() ); }
         }
