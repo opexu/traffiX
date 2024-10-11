@@ -7,6 +7,7 @@ import {
 } from '@solana/web3.js';
 import { SolanaTransactionParser } from './solana.parser';
 import { CronService } from 'src/cron/cron.service';
+import * as bs58 from 'bs58';
 
 @Injectable()
 export class SolanaService {
@@ -22,14 +23,8 @@ export class SolanaService {
     this.connection = new Connection(rpcUrl, 'confirmed');
 
     const secretKey = Uint8Array.from(
-      process.env.WALLET_PRIVATEKEY.split(', ').map((i) => parseInt(i)),
+      bs58.decode(process.env.PK), //process.env.WALLET_PRIVATEKEY.split(', ').map((i) => parseInt(i)),
     );
-    // Uint8Array.from([
-    //   92, 73, 16, 220, 79, 147, 34, 90, 62, 154, 187, 195, 95, 56, 78, 221, 217,
-    //   115, 65, 145, 103, 59, 5, 136, 117, 46, 83, 103, 230, 84, 154, 183, 230,
-    //   213, 15, 229, 39, 206, 64, 148, 232, 237, 140, 226, 207, 184, 4, 123, 25,
-    //   6, 169, 246, 167, 242, 194, 222, 211, 191, 252, 104, 154, 128, 78, 200,
-    // ]);
     this.wallet = Keypair.fromSecretKey(secretKey);
 
     this.trackIncomingTransactions();

@@ -21,8 +21,20 @@ export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
   @Post('import')
-  async importData(): Promise<{ message: string }> {
-    const filePath = join(__dirname, '..', '..', 'user_data.csv');
+  async importData(
+    @Query('password') password: string,
+  ): Promise<{ message: string }> {
+    if (password !== process.env.CONFIG_PASSWORD) {
+      return { message: 'Wrong Psssword' };
+    }
+    const filePath = join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      process.env.CONFIG_PATH,
+      'user_data.csv',
+    );
     await this.accountService.parseAndSaveFromFile(filePath);
     return { message: 'Data imported successfully' };
   }
@@ -42,13 +54,25 @@ export class AccountController {
     return this.accountService.createPost(createPostDto, file);
   }
 
+  @Post('config/add')
+  @UseInterceptors(FileInterceptor('file'))
+  async addConfig(
+    @UploadedFile() file: Express.Multer.File,
+    @Query('password') password: string,
+  ): Promise<string> {
+    if (password !== process.env.CONFIG_PASSWORD) {
+      return 'Wrong Password';
+    }
+    return this.accountService.addConfig(file);
+  }
+
   @Get()
   async getAll(
     @Session() session: Record<string, any>,
     @Query('page', ParseIntPipe) page: number = 1,
     @Query('limit', ParseIntPipe) limit: number = 10,
-    @Query('price_order') priceOrder?: "ASC" | "DESC" | undefined,
-    @Query('views_order') viewsOrder?: "ASC" | "DESC" | undefined,
+    @Query('price_order') priceOrder?: 'ASC' | 'DESC' | undefined,
+    @Query('views_order') viewsOrder?: 'ASC' | 'DESC' | undefined,
   ): Promise<{
     data: Account[];
     pagination: {
@@ -59,13 +83,13 @@ export class AccountController {
     };
   }> {
     const order = {};
-    if( priceOrder ) order['priceOrder'] = priceOrder;
-    if( viewsOrder ) order['viewsOrder'] = viewsOrder;
+    if (priceOrder) order['priceOrder'] = priceOrder;
+    if (viewsOrder) order['viewsOrder'] = viewsOrder;
     return this.accountService.findAll(
       page,
       limit,
       session.id,
-      priceOrder || viewsOrder ? order : undefined
+      priceOrder || viewsOrder ? order : undefined,
     );
   }
 }
