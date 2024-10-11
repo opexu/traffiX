@@ -28,7 +28,7 @@ export class CronService {
     private schedulerRegistry: SchedulerRegistry,
     private transactionService: TransactionService,
   ) {
-    const rpcUrl = 'https://api.devnet.solana.com';
+    const rpcUrl = process.env.RPC_URL;
     this.connection = new Connection(rpcUrl, 'confirmed');
   }
 
@@ -48,6 +48,9 @@ export class CronService {
     const now = new Date();
 
     for (const task of this.refundTasks) {
+      if (task.transaction.status === StatusType.PROCESSING) {
+        continue;
+      }
       const diffInMs = now.getTime() - task.scheduledAt.getTime();
       //   const diffInHours = diffInMs / (1000 * 60 * 60);
       const diffInMins = diffInMs / (1000 * 60);
