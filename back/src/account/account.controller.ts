@@ -7,18 +7,21 @@ import {
   UploadedFile,
   UseInterceptors,
   Body,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { join } from 'path';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreatePostDto } from './dto/post.dto';
+import { Account } from './entities/account.entity';
+import { Post as PostEntity } from './entities/post.entity';
 
 @Controller('accounts')
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
   @Post('import')
-  async importData() {
+  async importData(): Promise<{ message: string }> {
     const filePath = join(__dirname, '..', '..', 'user_data.csv');
     await this.accountService.parseAndSaveFromFile(filePath);
     return { message: 'Data imported successfully' };
@@ -35,16 +38,34 @@ export class AccountController {
   async createPost(
     @UploadedFile() file: Express.Multer.File,
     @Body() createPostDto: CreatePostDto,
-  ) {
+  ): Promise<PostEntity> {
     return this.accountService.createPost(createPostDto, file);
   }
 
   @Get()
   async getAll(
     @Session() session: Record<string, any>,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-  ) {
-    return this.accountService.findAll(page, limit, session.id);
+    @Query('page', ParseIntPipe) page: number = 1,
+    @Query('limit', ParseIntPipe) limit: number = 10,
+    @Query('order_by') orderBy?: string,
+    @Query('price_from') priceFrom?: number,
+    @Query('price_to') priceTo?: number,
+  ): Promise<{
+    data: Account[];
+    pagination: {
+      page: number;
+      perPage: number;
+      count: number;
+      totalPages: number;
+    };
+  }> {
+    return this.accountService.findAll(
+      page,
+      limit,
+      session.id,
+      orderBy,
+      priceFrom,
+      priceTo,
+    );
   }
 }
