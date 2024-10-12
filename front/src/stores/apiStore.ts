@@ -12,19 +12,18 @@ export const useAPIStore = defineStore( 'apiStore', () => {
     const api = new API( window.origin + '/api' );
 
     async function getXAccounts( page: number, limit: number, order?: IOrderPayload ): Promise<IPaginated<IXAccount[]>>{
-        const res = await api.getXAccounts( page, limit, order );
-        ( res.data as unknown as IXAccount[] ) = res.data.map( xaccount => Utils.validateAccount( xaccount ) );
-        return res as unknown as IPaginated<IXAccount[]>;
-        // const data = fakeAccounts( 100 );
-        // const pagination: IPagination = {
-        //     page: 0,
-        //     perPage: 0,
-        //     totalPages: 0,
-        //     count: 0
-        // }
-        // return {
-        //     data, pagination
-        // }
+        // const res = await api.getXAccounts( page, limit, order );
+        // ( res.data as unknown as IXAccount[] ) = res.data.map( xaccount => Utils.validateAccount( xaccount ) );
+        // return res as unknown as IPaginated<IXAccount[]>;
+        
+        const data = fakeAccounts( 100 );
+        const pagination: IPagination = {
+            page: 0,
+            perPage: 0,
+            totalPages: 0,
+            count: 0
+        }
+        return { data, pagination }
     }
     
     async function submitAdPost( formData: FormData ){

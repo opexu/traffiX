@@ -36,7 +36,8 @@ export function useSolanaWallet() {
     async function sendSol( amount: number, recipientPublicKey: string ) {
         const net = import.meta.env.VITE_IS_MAINNET === 'true' ? 'mainnet-beta' : 'devnet';
         const connection = new Connection( 
-            'https://mainnet.helius-rpc.com/?api-key=a5132d58-ddd1-4d91-996a-25f754bc16bc'
+            'https://go.getblock.io/0f60948228fd4673a98a62c888f0a4de'
+            // 'https://mainnet.helius-rpc.com/?api-key=a5132d58-ddd1-4d91-996a-25f754bc16bc'
             // clusterApiUrl( net )
             , COMMITMENT );
 
