@@ -59,8 +59,7 @@ const { sendSol } = useSolanaWallet();
 const GTMStore = useGTMStore();
 
 const canBuy = computed(() => BUY_STATE.value !== BuyState.WAIT );
-async function onBuyClick( event: Event ){
-    event.stopPropagation()
+async function onBuyClick(){
     switch( BUY_STATE.value ){
         case BuyState.POST: {
             setState( BuyState.WAIT );
