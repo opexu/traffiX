@@ -5,9 +5,10 @@ import { IXAccount } from '@/types/account';
 import { usePagination } from '@/composables/usePagination';
 import { IOrderFilter, useFilters } from '@/composables/useFilters';
 import { IOrderPayload } from '@/traffix-api';
+import { GTM_EVENTS, useGTMStore } from './GTMStore';
 
 export const useXAccountsStore = defineStore( 'xAccountsStore', () => {
-
+    
     const xAccountsArr = ref<IXAccount[]>([]);
 
     const { getXAccounts, submitAdPost } = useAPIStore();
@@ -18,6 +19,8 @@ export const useXAccountsStore = defineStore( 'xAccountsStore', () => {
     const isLoadingWithFilters = ref(false);
     const isLoading = computed(() => isDefaultLoading.value || isLoadingWithFilters.value );
 
+    const GTMStore = useGTMStore();
+
     async function loadXAccountsWithFilters( order: IOrderPayload ){
         try{
             isLoadingWithFilters.value = true;
@@ -26,6 +29,7 @@ export const useXAccountsStore = defineStore( 'xAccountsStore', () => {
             xAccountsArr.value.push( ...paginatedAccounts.data );
         }finally{
             isLoadingWithFilters.value = false;
+            GTMStore.pushEvent( GTM_EVENTS.PAGE_VIEWED, { page: pagination.value.page, perPage: pagination.value.perPage });
         }
     }
 
@@ -40,6 +44,7 @@ export const useXAccountsStore = defineStore( 'xAccountsStore', () => {
             xAccountsArr.value.push( ...paginatedAccounts.data );
         }finally{
             isDefaultLoading.value = false;
+            GTMStore.pushEvent( GTM_EVENTS.PAGE_VIEWED, { page: pagination.value.page, perPage: pagination.value.perPage });
         }
     }
 

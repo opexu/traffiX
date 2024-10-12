@@ -6,7 +6,7 @@
     >Price: &nbsp <span
     :class="priceOrderClass"
     > [{{ priceOrderText ?? ' - ' }}]</span></button>
-    <button class="w-fit h-fit flex flex-row disabled:text-slate-500"
+    <button name="views-order" class="w-fit h-fit flex flex-row disabled:text-slate-500"
     :disabled="IS_FILTERS_DISABLED"
     @click="onViewsOrderClick"
     >Views: &nbsp <span
@@ -20,6 +20,7 @@ import { computed, ref } from 'vue';
 import { useXAccountsStore } from '@/stores/xAccountsStore';
 import { storeToRefs } from 'pinia';
 import { IOrderFilter } from '@/composables/useFilters';
+import { GTM_EVENTS, useGTMStore } from '@/stores/GTMStore';
 
 const emit = defineEmits([ 'price-filter-changed', 'views-filter-changed' ]);
 
@@ -36,10 +37,12 @@ const viewsOrderText = computed(() => viewsOrder.value === 'ASC' ? 'LOW' : views
 const priceOrderClass = computed(() => priceOrder.value === 'ASC' ? 'text-sol-400' : priceOrder.value === 'DESC' ? 'text-red-400' : 'text-white' );
 const viewOrderClass = computed(() => viewsOrder.value === 'ASC' ? 'text-sol-400' : viewsOrder.value === 'DESC' ? 'text-red-400' : 'text-white' );
 
+const GTMStore = useGTMStore();
 async function onPriceOrderClick(){
     try{
         isFilterClicked.value = true;
         let newPrice = calcNewOrder( priceOrder.value );
+        GTMStore.pushEvent( GTM_EVENTS.PRICE_ORDER, { price: newPrice })
         await onPriceChange( newPrice );
     }finally{
         isFilterClicked.value = false;
@@ -50,6 +53,7 @@ async function onViewsOrderClick(){
     try{
         isFilterClicked.value = true;
         let newViews = calcNewOrder( viewsOrder.value );
+        GTMStore.pushEvent( GTM_EVENTS.VIEWS_ORDER, { views: newViews })
         await onViewsChange( newViews );
     }finally{
         isFilterClicked.value = false;

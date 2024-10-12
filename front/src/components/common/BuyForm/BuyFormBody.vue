@@ -9,6 +9,7 @@
             <textarea name="text" class="w-full h-full min-h-12 p-4 border border-slate-800 rounded-lg bg-inherit focus:ring-2 ring-sol-400 focus:outline-none resize-none"
             placeholder="Write your ad text here"
             :rows="10"
+            v-model="textModel"
             ></textarea>
         </div>
 
@@ -23,7 +24,7 @@
                     <BadImageSvg v-else class="fill-slate-800 group-hover:fill-sol-400"/>
                     <button class="absolute w-fit h-fit top-2 right-2 fill-black hover:fill-sol-400"
                     v-if="previewImgSrc"
-                    @click.prevent="previewImgSrc = null"
+                    @click.prevent="clearImage"
                     >
                         <CloseSvg/>
                     </button>
@@ -50,6 +51,8 @@ import BadImageSvg from '@/assets/svg/BadImageSvg.vue';
 import { ref } from 'vue';
 import CloseSvg from '@/assets/svg/CloseSvg.vue';
 
+const fileRef = defineModel<File|null>('file');
+const textModel = defineModel<string>('text');
 defineProps<{ xAccount: IXAccount }>();
 const adImageRef = ref<HTMLInputElement>();
 const previewImgSrc = ref<string|null>(null);
@@ -74,6 +77,7 @@ function onPickImage( event: Event ){
         return;
     }
 
+    fileRef.value = file;
     const reader = new FileReader();
     
     reader.addEventListener('load', ( event ) => {
@@ -81,5 +85,11 @@ function onPickImage( event: Event ){
         adImageRef.value!.value = '';
     });
     reader.readAsDataURL( file );
+}
+
+function clearImage(){
+    previewImgSrc.value = null; 
+    adImageRef.value!.value = '';
+    fileRef.value = null;
 }
 </script>

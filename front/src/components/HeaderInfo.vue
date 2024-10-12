@@ -41,8 +41,23 @@
 
 <script setup lang="ts">
 import PinSrc from '@/assets/svg/pin.svg';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import Modal from './common/Modal.vue';
+import { GTM_EVENTS, useGTMStore } from '@/stores/GTMStore';
 
 const howItWorks = ref(false);
+
+let startTime = Date.now();
+const GTMStore = useGTMStore();
+watch( howItWorks, ( value ) => {
+    if( value ) {
+        startTime = Date.now();
+        GTMStore.pushEvent( GTM_EVENTS.HOW_IT_WORKS_ENTER, { startTime });
+    }
+    else {
+        const endTime = Date.now();
+        const spentTime = endTime - startTime;
+        GTMStore.pushEvent( GTM_EVENTS.HOW_IT_WORKS_LEAVE, { endTime, spentTime });
+    }
+})
 </script>

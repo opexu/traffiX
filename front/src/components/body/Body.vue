@@ -1,14 +1,15 @@
 <template>
-    <BodyFilters 
+<div class="w-full h-full flex flex-col items-center overflow-auto">
+    <BodyFilters class="w-full lg:w-5/6 xl:w-2/3"
     @price-filter-changed="resetYScroll"
     @views-filter-changed="resetYScroll"
     />
-    <div class="w-full p-4 flex flex-col gap-4 overflow-auto">
+    <div ref="cardRootRef" class="w-full h-full px-4 gap-4 flex flex-col items-center overflow-hidden overflow-y-scroll">
 
-        <div ref="cardRootRef" class="absolute w-full left-0 h-full flex gap-2 flex-row items-center justify-center overflow-hidden overflow-y-scroll">
-            <div class="w-full lg:w-5/6 xl:w-2/3 h-full flex flex-col ">
+        <div  class="w-full lg:w-5/6 xl:w-2/3 h-full flex gap-2 flex-row items-center justify-center">
+            <div class="w-full h-full flex flex-col ">
             <div class="w-full h-fit pt-4 grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
-                <template v-for="(   account ) in xAccountsArr" :key="account.id">
+                <template v-for="( account ) in xAccountsArr" :key="account.id">
                     <Card :x-account="account"
                     />
                 </template>
@@ -20,6 +21,7 @@
         </div>
         
     </div>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -47,7 +49,10 @@ const debouncedFn = useDebounceFn( async () => {
 
 const { reset, isLoading } = useInfiniteScroll(
     cardRootRef,
-    debouncedFn,
+    async () => {
+        if( xAccountsArr.value.length === 0 ) return;
+        else await debouncedFn()
+    },
     { distance: 10 }
 )
 

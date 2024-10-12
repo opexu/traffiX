@@ -1,5 +1,5 @@
 <template>
-<div class="w-full h-full flex flex-col">
+<div class="w-full h-full flex flex-col items-center">
     <Header/>
     <Body/>
 </div>

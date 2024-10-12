@@ -5,8 +5,9 @@
         
         <h1 class="text-xl">Congratulations!</h1>
 
-        <h1>Please wait...</h1>
+        <p class="text-sol-400">Post created</p>
 
+        <p class="text-slate-400">Continue?</p>
     </div>
 
 </div>

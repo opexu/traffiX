@@ -6,7 +6,7 @@
         </div>
         <button
         class="w-full h-fit py-3 rounded-2xl items-center justify-center text-center font-bold active:bg-lime-400 bg-sol-400 [&:not(:active):not(:disabled)]:hover:gradient-animation transition-all duration-500"
-        @click="$emit('buy')">
+        @click.stop.prevent="$emit('buy')">
         Buy
         </button>
         

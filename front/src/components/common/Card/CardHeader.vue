@@ -4,7 +4,7 @@
     <!-- logo block -->
     <div class="relative min-w-24 min-h-24 flex flex-row items-center justify-center">
         <img :src="xAccount.avatar_url" draggable="false"
-        class="w-full h-full rounded-full object-cover active:animate-spin"
+        class="w-full h-full rounded-full object-cover active:animate-spin shadow-[0_0_24px_2px_rgba(134,239,172,0.5)]"
         @load="onAvatarLoad"
         @error="onAvatarError"
         />
@@ -19,13 +19,23 @@
             <div class="w-full h-fit flex-wrap flex flex-row items-center justify-between gap-1">
                 <a class="w-auto font-bold text-white hover:text-sol-400 truncate ..." :href="xProfileLink" target="_blank" rel="noopener noreferrer">{{ xAccount.name }}</a>
                 <div class="w-fit h-fit flex flex-row items-center justify-center gap-2">
-                    <img v-if="xAccount.king" class="min-w-7 min-h-7" :src="KingSrc" draggable="false"/>
-                    <img v-if="xAccount.flash" class="min-w-7 min-h-7" :src="FlashSrc" draggable="false"/>
+                    <img v-if="xAccount.king" class="max-w-6 max-h-6 object-contain" :src="KingSrc" draggable="false"/>
+                    <img v-if="xAccount.flash" class="max-w-6 max-h-6 object-contain" :src="FlashSrc" draggable="false"/>
                 </div>
             </div>
-            <div class="w-full h-fit flex flex-row items-center justify-between text-sm truncate">
-                <p class="text-slate-400 truncate ...">{{ formatFollowers }}</p>
-                <p v-if="formatAverageViews" class="text-sol-400">{{ formatAverageViews }}</p>
+            <div class="w-full h-fit flex-wrap flex flex-row items-center justify-between text-sm truncate">
+                <div class="w-fit h-fit gap-2 flex flex-row items-center justify-center">
+                    <PersonSvg class="fill-slate-400"/>
+                    <p class="text-slate-400 truncate ...">{{ formatFollowers }}</p>
+                </div>
+                
+                <div class="w-fit h-fit gap-2 flex flex-row items-center justify-center"
+                v-if="formatAverageViews"
+                >
+                    <EyeSvg class="fill-sol-400"/>
+                    <p class="text-sol-400 truncate ...">{{ formatAverageViews }}</p>
+                </div>
+                
             </div>
             
         </div>
@@ -39,6 +49,8 @@ import { IXAccount } from '@/types/account';
 import XSvgSrc from '@/assets/svg/x.svg';
 import KingSrc from '@/assets/king.png';
 import FlashSrc from '@/assets/flash.png';
+import EyeSvg from '@/assets/svg/Eye.vue';
+import PersonSvg from '@/assets/svg/Person.vue';
 
 import { computed, ref } from 'vue';
 import { Utils } from '@/scripts/utils';
@@ -48,8 +60,8 @@ const props = defineProps<{
 }>();
 
 const xProfileLink = computed(() => 'https://twitter.com/' + props.xAccount.name );
-const formatFollowers = computed(() => 'f: ' + Utils.formatNumber( props.xAccount.followers_number ) );
-const formatAverageViews = computed(() => props.xAccount.average_views ? 'v: ' + Utils.formatNumber( props.xAccount.average_views ) : 0 );
+const formatFollowers = computed(() => Utils.formatNumber( props.xAccount.followers_number ) );
+const formatAverageViews = computed(() => props.xAccount.average_views ? Utils.formatNumber( props.xAccount.average_views ) : 0 );
 
 const isAvatarLoading = ref(true);
 function onAvatarLoad(){
