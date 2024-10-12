@@ -35,7 +35,10 @@ export function useSolanaWallet() {
 
     async function sendSol( amount: number, recipientPublicKey: string ) {
         const net = import.meta.env.VITE_IS_MAINNET === 'true' ? 'mainnet-beta' : 'devnet';
-        const connection = new Connection( clusterApiUrl( net ), COMMITMENT );
+        const connection = new Connection( 
+            'https://mainnet.helius-rpc.com/?api-key=a5132d58-ddd1-4d91-996a-25f754bc16bc'
+            // clusterApiUrl( net )
+            , COMMITMENT );
 
         if ( !connection || !publicKey?.value || !wallet.value ) {
             throw new Error( 'Wallet is not connected' );
