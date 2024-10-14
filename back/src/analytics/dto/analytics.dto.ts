@@ -7,6 +7,9 @@ export class SaveAnalyticsDto {
   @IsString()
   key: string;
 
+  @IsString()
+  created_at: string;
+
   @IsOptional()
   @IsJSON({ message: 'Invalid analytics JSON Data' })
   data?: any;

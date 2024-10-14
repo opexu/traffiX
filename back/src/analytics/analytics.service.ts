@@ -15,7 +15,10 @@ export class AnalyticsService {
     try {
       const savedData: Analytics[] = [];
       for (const data of batchData) {
-        const createData = this.analyticsRepository.create(data);
+        const createData = this.analyticsRepository.create({
+          ...data,
+          created_at: new Date(data.created_at),
+        });
         savedData.push(await this.analyticsRepository.save(createData));
       }
       if (savedData.length === batchData.length) {

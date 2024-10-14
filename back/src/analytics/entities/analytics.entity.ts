@@ -11,6 +11,9 @@ export class Analytics {
   @Column()
   key: string;
 
+  @Column()
+  created_at: Date;
+
   @Column('jsonb', { nullable: true })
-  data: any;
+  data?: any;
 }
