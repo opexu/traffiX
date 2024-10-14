@@ -94,12 +94,12 @@ async function submitForm() {
     formData.append('x_author', props.xAccount.name);
     formData.append('text', text.value);
     if( file.value ) formData.append('file', file.value);
-    try{
-        const xpost = await apiStore.submitAdPost( formData );
-        console.log('xpost: ', xpost)
-    }finally{
+    // try{
+    //     const xpost = await apiStore.submitAdPost( formData );
+    //     console.log('xpost: ', xpost)
+    // }finally{
 
-    }
+    // }
 }
 
 </script>
