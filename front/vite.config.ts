@@ -5,11 +5,11 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
-
+import { createHtmlPlugin } from 'vite-plugin-html';
 
 /** @type {import('vite').UserConfig} */
 export default defineConfig( ( { command, mode, isSsrBuild, isPreview } ) => {
-    
+
     process.env = { ...process.env, ...loadEnv( mode, process.cwd() ) }
     console.log( 'process.env', process.env )
 
@@ -27,6 +27,14 @@ export default defineConfig( ( { command, mode, isSsrBuild, isPreview } ) => {
                 overrides: {},
                 protocolImports: false,
             } ),
+            createHtmlPlugin({
+                minify: true, // Включает минификацию
+                
+                // Обработка HTML для удаления комментариев
+                // transformIndexHtml: (html) => {
+                //   return html.replace(/<!--[\s\S]*?-->/g, ''); // Удаление комментариев
+                // },
+            }),
         ],
         root: path.resolve( __dirname, './src' ),
         resolve: {
@@ -44,6 +52,11 @@ export default defineConfig( ( { command, mode, isSsrBuild, isPreview } ) => {
         build: {
             outDir: '../dist',
             emptyOutDir: true,
+            terserOptions: {
+                parse: {
+                    html5_comments: false,
+                }
+            }
         },
     }
     
