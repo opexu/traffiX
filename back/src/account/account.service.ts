@@ -154,10 +154,10 @@ export class AccountService {
     }
   }
 
-  async createPost(createPostDto: CreatePostDto, file: Express.Multer.File) {
+  async createPost(createPostDto: CreatePostDto, file?: Express.Multer.File) {
     const filePath = await this.uploadImage(file);
     const post = this.postRepository.create({
-      text: createPostDto.text,
+      text: createPostDto.text ?? '',
       x_author: createPostDto.x_author,
       image_url: filePath,
     });

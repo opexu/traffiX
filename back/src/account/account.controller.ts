@@ -48,8 +48,8 @@ export class AccountController {
   @Post('post/create')
   @UseInterceptors(FileInterceptor('file'))
   async createPost(
-    @UploadedFile() file: Express.Multer.File,
     @Body() createPostDto: CreatePostDto,
+    @UploadedFile() file?: Express.Multer.File,
   ): Promise<PostEntity> {
     return this.accountService.createPost(createPostDto, file);
   }
