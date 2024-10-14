@@ -7,7 +7,6 @@ import {
   UploadedFile,
   UseInterceptors,
   Body,
-  ParseIntPipe,
 } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { join } from 'path';
@@ -69,8 +68,7 @@ export class AccountController {
   @Get()
   async getAll(
     @Session() session: Record<string, any>,
-    @Query('page', ParseIntPipe) page: number = 1,
-    @Query('limit', ParseIntPipe) limit: number = 10,
+    @Query() pagination?: { page: number; limit: number },
     @Query('price_order') priceOrder?: 'ASC' | 'DESC' | undefined,
     @Query('views_order') viewsOrder?: 'ASC' | 'DESC' | undefined,
   ): Promise<{
@@ -86,8 +84,7 @@ export class AccountController {
     if (priceOrder) order['priceOrder'] = priceOrder;
     if (viewsOrder) order['viewsOrder'] = viewsOrder;
     return this.accountService.findAll(
-      page,
-      limit,
+      pagination,
       session.id,
       priceOrder || viewsOrder ? order : undefined,
     );
