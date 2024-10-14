@@ -52,11 +52,11 @@ export class CronService {
         continue;
       }
       const diffInMs = now.getTime() - task.scheduledAt.getTime();
-      const diffInHours = diffInMs / (1000 * 60 * 60);
-      // const diffInMins = diffInMs / (1000 * 60);
+      // const diffInHours = diffInMs / (1000 * 60 * 60);
+      const diffInMins = diffInMs / (1000 * 60);
 
-      // if (diffInMins >= 5) {
-      if (diffInHours >= 1) {
+      if (diffInMins >= 10) {
+        // if (diffInHours >= 1) {
         await this.transactionService.updateTransaction(task.transaction.id, {
           status: StatusType.PROCESSING,
         });
