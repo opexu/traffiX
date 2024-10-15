@@ -30,4 +30,11 @@ export class CommonApi {
         const data = await res.json() as T;
         return data;
     }
+
+    protected async _fetchPost<T,K>( url: URL, payload?: K ): Promise<T> {
+        const headers = { 'Content-Type': 'application/json' };
+        const res = await fetch( url, { method: 'POST', headers, body: JSON.stringify( payload ) });
+        const data = await res.json() as T;
+        return data;
+    }
 }

@@ -1,5 +1,5 @@
 <template>
-<div class="w-full h-fit p-8 flex flex-row items-center justify-end rounded-3xl bg-slate-950">
+<div class="w-full h-fit p-4 md:p-8 flex flex-row items-center justify-end rounded-3xl bg-slate-950">
     
     <div class="w-full h-fit gap-4 flex sm:flex-row flex-col items-center justify-between"
     v-if="connected"

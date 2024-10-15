@@ -19,11 +19,16 @@ import Preloader from './components/common/Preloader.vue';
 import { storeToRefs } from 'pinia';
 import { useXAccountsStore } from './stores/xAccountsStore';
 import { useScroll } from '@vueuse/core';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { useGTMStore } from './stores/GTMStore';
 
 const xAccountsStore = useXAccountsStore();
 const { xAccountsArr } = storeToRefs( xAccountsStore );
 
 const appChildRef = ref();
+const GTMStore = useGTMStore();
 
+onMounted(() => {
+    GTMStore.init();
+})
 </script>

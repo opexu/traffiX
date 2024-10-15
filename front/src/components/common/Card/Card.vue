@@ -15,11 +15,14 @@
     />
 
     <Modal :show="isBuyForm">
-        <div class="w-full h-2/3 gap-4 flex flex-col items-center justify-center text-white">
+        <div class="w-full h-fit gap-2 md:gap-4 flex flex-col items-center justify-center text-white">
             <button class="hover:text-sol-400"
             @click.stop.prevent="isBuyForm = false"
             >[ Go back ]</button>
-            <BuyForm :xAccount="xAccount"/>
+            <BuyForm 
+            :xAccount="xAccount"
+            @close="isBuyForm = false"
+            />
         </div>
     </Modal>
 </div>

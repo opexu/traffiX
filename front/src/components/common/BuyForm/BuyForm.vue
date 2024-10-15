@@ -1,7 +1,7 @@
 <template>
-<div class="w-full md:w-2/3 2xl:w-3/5 max-h-xl gap-4 flex flex-col items-center justify-center">
+<div class="w-full md:w-2/3 2xl:w-3/5 h-fit gap-4 flex flex-col items-center justify-center">
 
-    <div class="w-full h-full flex flex-col rounded-3xl bg-slate-950 overflow-hidden">
+    <div class="w-full h-fit flex flex-col rounded-3xl bg-slate-950 overflow-hidden">
         <BuyFormHeader :xAccount="xAccount" />
         <Transition name="fade" mode="out-in">
         <BuyFormBody :xAccount="xAccount" 
@@ -44,6 +44,7 @@ import Modal from '../Modal.vue';
 import Preloader from '../Preloader.vue';
 import { GTM_EVENTS, useGTMStore } from '@/stores/GTMStore';
 
+const emit = defineEmits([ 'close' ]);
 const props = defineProps<{ xAccount: IXAccount }>();
 const apiStore = useAPIStore();
 const buyStateStore = useBuyState();
@@ -66,13 +67,20 @@ async function onBuyClick(){
             GTMStore.pushEvent( GTM_EVENTS.BUY_POST, { name: props.xAccount.name, price: props.xAccount.price });
             try{
                 await debouncedFn();
-            }finally{
                 setState( BuyState.CONGRATULATION );
                 GTMStore.pushEvent( GTM_EVENTS.CONGRATULATION_RECEIVED, { name: props.xAccount.name, price: props.xAccount.price });
+                console.log('congratulation received')
+            }catch(e){
+                console.log('catch received')
+                setState( BuyState.POST );
+            }
+            finally{
+                
             }
             break;
         }
         case BuyState.CONGRATULATION: {
+            emit('close');
             setState( BuyState.POST );
             GTMStore.pushEvent( GTM_EVENTS.CONTINUE_CLICK, { name: props.xAccount.name, price: props.xAccount.price });
             break;

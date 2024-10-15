@@ -1,6 +1,6 @@
 import { IPaginated, IXAccount, IXAccountUnverified } from "@/types/account";
 import { CommonApi, IGetPayload } from "./common-api";
-import { IOrderPayload, Resource, type IAPI } from "./iapi";
+import { IAnalyticsPayload, IOrderPayload, Resource, type IAPI } from "./iapi";
 import { IXPost } from "@/types/post";
 
 export class API extends CommonApi implements IAPI {
@@ -20,5 +20,10 @@ export class API extends CommonApi implements IAPI {
     async submitAdPost( formData: FormData ): Promise<IXPost> {
         const url = new URL( this._baseUrl + '/' + Resource.AdPost );
         return this._fetchForm( url, formData );
+    }
+
+    async sendAnalytics( analytics: IAnalyticsPayload[] ): Promise<{ status: number }> {
+        const url = new URL( this._baseUrl + '/' + Resource.Analytics );
+        return this._fetchPost( url, analytics );
     }
 }
