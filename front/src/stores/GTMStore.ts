@@ -44,7 +44,7 @@ function useCustomAnalytics() {
         analytics.push( {
             user: sessionId.value,
             key: event,
-            date: new Date().toISOString(),
+            created_at: new Date().toISOString(),
             data
         } )
     }

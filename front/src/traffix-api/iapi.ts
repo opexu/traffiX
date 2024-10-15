@@ -9,7 +9,7 @@ export enum Resource {
 }
 
 export type IOrderPayload = { priceOrder?: IOrderFilter, viewsOrder?: IOrderFilter };
-export type IAnalyticsPayload = { user: string, key: string, date: string, data?: {[key:string]:any} };
+export type IAnalyticsPayload = { user: string, key: string, created_at: string, data?: {[key:string]:any} };
 
 export interface IAPI {
     getXAccounts( page: number, limit: number, order?: IOrderPayload ): Promise<IPaginated<IXAccountUnverified[]>>
