@@ -42,14 +42,14 @@ export class AccountService {
     });
   }
   async findAll(
-    page: number,
-    limit: number,
+    pagination: { page: number; limit: number },
     sid?: string,
     order?: {
       priceOrder?: 'ASC' | 'DESC' | undefined;
       viewsOrder?: 'ASC' | 'DESC' | undefined;
     },
   ) {
+    const { page = 1, limit = 10 } = pagination;
     if (sid && !order) {
       return this.findAllWithRandomization(sid, page, limit);
     }
