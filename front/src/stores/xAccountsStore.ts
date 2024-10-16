@@ -11,7 +11,7 @@ export const useXAccountsStore = defineStore( 'xAccountsStore', () => {
     
     const xAccountsArr = ref<IXAccount[]>([]);
 
-    const { getXAccounts, submitAdPost } = useAPIStore();
+    const { getXAccounts } = useAPIStore();
     const { pagination, update: udpatePagination, reset: resetPagination } = usePagination({ page: 0, perPage: 100, count: 0, totalPages: 0 });
     const { priceOrder, viewsOrder, setPriceFilter, setViewsFilter } = useFilters();
     
