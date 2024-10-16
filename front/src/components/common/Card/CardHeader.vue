@@ -17,7 +17,7 @@
         <img :src="XSvgSrc" class="min-w-2 h-auto" draggable="false"/>
         <div class="w-full h-full flex flex-col gap-2 justify-between truncate ...">
             <div class="w-full h-fit flex-wrap flex flex-row items-center justify-between gap-1">
-                <a class="w-auto font-bold text-white hover:text-sol-400 truncate ..." :href="xProfileLink" target="_blank" rel="noopener noreferrer">{{ xAccount.name }}</a>
+                <a class="w-auto font-bold text-white hover:text-sol-400 truncate ..." :href="xProfileLink" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">{{ xAccount.name }}</a>
                 <div class="w-fit h-fit flex flex-row items-center justify-center gap-2">
                     <img v-if="xAccount.king" class="max-w-6 max-h-6 object-contain" :src="KingSrc" draggable="false"/>
                     <img v-if="xAccount.flash" class="max-w-6 max-h-6 object-contain" :src="FlashSrc" draggable="false"/>

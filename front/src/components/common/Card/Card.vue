@@ -50,5 +50,6 @@ watch( isBuyForm, ( value ) => {
 
 function onEmptyCardClick(){
     GTMStore.pushEvent( GTM_EVENTS.EMPTY_CARD_CLICK, { name: props.xAccount.name } );
+    isBuyForm.value = true;
 }
 </script>
