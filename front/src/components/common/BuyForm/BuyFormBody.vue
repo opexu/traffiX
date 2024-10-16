@@ -2,7 +2,7 @@
 <div class="w-full h-fit p-4 md:p-8 gap-4 flex flex-col items-center justify-start">
 
     <div class="w-full h-fit flex flex-row items-start justify-start text-slate-400 text-xs md:text-base">
-        <p>Get buzz with <span class="text-sol-400">{{ xAccount.name }}</span> for his/her <span class="text-sol-400">{{ formatFollowers }}</span> followers!</p>
+        <p>Get buzz with <span class="text-sol-400">{{ xAccount.name }}</span> <span class="text-sol-400">{{ formatFollowers }}</span> followers!</p>
     </div>
 
     <div class="w-full h-fit gap-4 flex flex-row">
@@ -11,7 +11,7 @@
         <div class="w-full h-full gap-4 flex flex-col items-start justify-start">
             <h2 class="font-bold text-base md:text-xl">Ad Text</h2>
             <textarea name="text" class="w-full h-40 p-4 border border-slate-800 text-xs rounded-lg bg-inherit focus:ring-2 ring-sol-400 focus:outline-none resize-none"
-            placeholder="Add text here about your Token to be placed in his/her X feed!"
+            placeholder="Add text here about your Token to be placed on X!"
             :rows="10"
             v-model="textModel"
             ></textarea>
