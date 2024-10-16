@@ -70,20 +70,26 @@ export class CronService {
   }
 
   async sendSolBack(transaction: TransactionEntity, wallet: Keypair) {
-    const receiverPubkey = new PublicKey(transaction.from);
+    try {
+      const receiverPubkey = new PublicKey(transaction.from);
 
-    const instruction = SystemProgram.transfer({
-      fromPubkey: wallet.publicKey,
-      toPubkey: receiverPubkey,
-      lamports: BigInt(transaction.amount),
-    });
+      const instruction = SystemProgram.transfer({
+        fromPubkey: wallet.publicKey,
+        toPubkey: receiverPubkey,
+        lamports: BigInt(transaction.amount),
+      });
 
-    const transactionData = new Transaction().add(instruction);
+      const transactionData = new Transaction().add(instruction);
 
-    await sendAndConfirmTransaction(this.connection, transactionData, [wallet]);
-    await this.transactionService.updateTransaction(transaction.id, {
-      status: StatusType.REFUNDED,
-    });
+      await sendAndConfirmTransaction(this.connection, transactionData, [
+        wallet,
+      ]);
+      await this.transactionService.updateTransaction(transaction.id, {
+        status: StatusType.REFUNDED,
+      });
+    } catch (e: any) {
+      this.logger.error(e.message);
+    }
     // this.logger.log(
     //   `Sent ${BigInt(transaction.amount) / BigInt(LAMPORTS_PER_SOL)} SOL back to ${transaction.from}. Transaction signature: ${signedTransaction}`,
     // );

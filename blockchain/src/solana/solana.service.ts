@@ -47,12 +47,6 @@ export class SolanaService {
           );
 
         if (parsedTransaction) {
-          //   const { from, amount } = parsedTransaction;
-
-          //   this.logger.log(
-          //     `Transaction parsed: From ${from}, Amount: ${BigInt(amount) / BigInt(LAMPORTS_PER_SOL)} SOL`,
-          //   );
-
           await this.cronService.scheduleRefund(parsedTransaction, this.wallet);
         }
       }

@@ -27,7 +27,12 @@ export class SolanaTransactionParser {
     }
 
     const instructions = parsedTransaction.transaction.message.instructions;
+    const err = parsedTransaction.meta.err;
 
+    if (err) {
+      this.logger.warn(err);
+      return null;
+    }
     for (const instruction of instructions) {
       if (instruction['parsed']) {
         const parsedInstruction = (instruction as ParsedInstruction).parsed;
