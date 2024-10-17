@@ -19,7 +19,7 @@
                 <img :src="XSvgSrc" draggable="false"
                 class="w-6 md:w-9 h-6 md:h-9"
                 />
-                <h2 class="font-bold text-white text-base md:text-2xl truncate ...">{{ xAccount.name }}</h2>
+                <a class="font-bold text-white text-base md:text-2xl truncate ..." :href="xProfileLink" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">{{ xAccount.name }}</a>
             </div>
             <div class="w-full h-fit flex flex-col items-start text-sm md:text-base">
                 <p><span class="text-sol-400">Followers: </span>{{ formatFollowers }}</p>
@@ -50,5 +50,6 @@ const xAccountsStore = useXAccountsStore();
 const formatFollowers = computed(() => Utils.formatNumber( props.xAccount.followers_number ) );
 const formatAverageViews = computed(() => props.xAccount.average_views ? Utils.formatNumber( props.xAccount.average_views ) : 0 );
 
+const xProfileLink = computed(() => 'https://twitter.com/' + props.xAccount.name );
 
 </script>
