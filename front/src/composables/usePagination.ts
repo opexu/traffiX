@@ -1,5 +1,12 @@
 import { ref } from "vue";
 
+export interface IPaginationRaw {
+    page: string | number, // from 0
+    perPage: string | number,
+    totalPages: string | number,
+    count: string | number,
+}
+
 export interface IPagination {
     page: number, // from 0
     perPage: number,
@@ -12,7 +19,7 @@ export function usePagination( init: IPagination ){
     const pagination = ref<IPagination>( init );
 
     function update( newPagination: IPagination ){
-        pagination.value = newPagination;
+        pagination.value = validatePagitation( newPagination );
     }
 
     function nextPage(){
@@ -39,4 +46,13 @@ export function usePagination( init: IPagination ){
     }
 
     return { pagination, update, nextPage, prevPage, reset }
+}
+
+function validatePagitation( pagination: IPaginationRaw ): IPagination {
+    return {
+        page: +pagination.page, // from 0
+        perPage: +pagination.perPage,
+        totalPages: +pagination.totalPages,
+        count: +pagination.count,
+    };
 }
