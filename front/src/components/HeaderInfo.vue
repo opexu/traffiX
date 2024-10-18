@@ -9,7 +9,7 @@
             >[ How it works ]</button>
                         
             <div class="w-full h-fit gap-2 flex flex-row items-center justify-between">
-                <a class="hover:text-sol-400" href="https://x.com/nopunks_OTC" target="_blank" rel="noopener noreferrer"
+                <a class="hover:text-sol-400" href="https://x.com/degenbuzz_space" target="_blank" rel="noopener noreferrer"
                 >[ X ]</a>
 
                 <a class="hover:text-sol-400" href="https://t.me/degenbuzzsupport" target="_blank" rel="noopener noreferrer"
