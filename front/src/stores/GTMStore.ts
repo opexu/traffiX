@@ -23,8 +23,13 @@ export enum GTM_EVENTS {
 
 export const useGTMStore = defineStore( 'GTMStore', () => {
 
-    // const { pushEvent } = useDataLayer();
-    const { pushEvent, init } = useCustomAnalytics();
+    const { pushEvent: pushDataLayer } = useDataLayer();
+    const { pushEvent: pushCustom, init } = useCustomAnalytics();
+
+    function pushEvent( event: GTM_EVENTS, data?: { [ key: string ]: any } ){
+        pushDataLayer( event, data );
+        pushCustom( event, data );
+    }
 
     return { pushEvent, init }
 } );
