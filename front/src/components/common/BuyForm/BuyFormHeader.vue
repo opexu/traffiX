@@ -23,7 +23,7 @@
             </div>
             <div class="w-full h-fit flex flex-col items-start text-sm md:text-base">
                 <p><span class="text-sol-400">Followers: </span>{{ formatFollowers }}</p>
-                <p><span class="text-sol-400">Average Views: </span>{{ formatAverageViews }}</p>
+                <p><span class="text-sol-400">Reach: </span>{{ formatAverageViews }}</p>
                 <div class="w-fit h-fit flex flex-row items-center justify-center gap-2">
                     <p class="font-bold text-white"><span class="text-sol-400">Price: </span>{{ xAccount.price }}</p>
                     <img class="active:animate-ping" :src="solLogoSrc" alt="Logo" draggable="false"/>

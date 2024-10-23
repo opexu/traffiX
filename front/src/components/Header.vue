@@ -4,7 +4,7 @@
         <HeaderInfo/>
     
         <HeaderText class="w-full h-full px-4 py-2 flex flex-row items-center justify-center"
-        text="Buy Influence, Boost your Meme, Cash out Big!"
+        text="Buy Influence, Boost your Meme, Cash&nbsp;out&nbsp;Big!"
         v-if="!isMobile"
         />
         <WalletMultiButton>
@@ -21,7 +21,7 @@
     
     <HeaderText class="w-full h-full px-4 py-2 flex flex-row items-center justify-center"
     @click="isHeaderTextVisible = false"
-    text="Buy Influence, Boost your Meme, Cash out Big!"
+    text="Buy Influence, Boost your Meme, Cash&nbsp;out&nbsp;Big!"
     v-if="isMobile && isHeaderTextVisible"
     />
 </div>

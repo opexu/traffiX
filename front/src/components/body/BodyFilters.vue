@@ -9,7 +9,7 @@
     <button name="views-order" class="w-fit h-fit flex flex-row disabled:text-slate-500"
     :disabled="IS_FILTERS_DISABLED"
     @click="onViewsOrderClick"
-    >Views: &nbsp <span
+    >Reach: &nbsp <span
     :class="viewOrderClass"
     >[{{ viewsOrderText ?? ' - ' }}]</span></button>
 </div>
