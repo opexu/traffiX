@@ -1,5 +1,5 @@
 <template>
-<div class="w-fit h-full gap-4 flex flex-row items-center justify-center">
+<div class="w-80 h-full gap-4 flex flex-row items-center justify-start">
     <img :src="PinSrc" class="w-fit h-fit hover:animate-bounce active:animate-ping" draggable="false"/>
     <div class="w-fit h-fit flex-wrap flex flex-col text-white whitespace-nowrap">
         <div class="w-36 sm:w-24 h-fit flex-wrap flex flex-row items-center justify-between text-sm md:text-base">
